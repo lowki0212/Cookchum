@@ -33,12 +33,15 @@ public class RecipeService {
     public RecipeEntity updateRecipe(int id, RecipeEntity updatedRecipe) {
         return recipeRepository.findById(id)
             .map(existingRecipe -> {
+                // Only update editable fields
                 existingRecipe.setName(updatedRecipe.getName());
                 existingRecipe.setDescription(updatedRecipe.getDescription());
                 existingRecipe.setEstimatedCost(updatedRecipe.getEstimatedCost());
-                existingRecipe.setIngredients(updatedRecipe.getIngredients());
+
+                // Save only the modified fields, without affecting relationships
                 return recipeRepository.save(existingRecipe);
-            }).orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
+            })
+            .orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
     }
 
     // Delete a recipe by ID

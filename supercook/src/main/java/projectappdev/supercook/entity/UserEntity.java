@@ -29,9 +29,7 @@ public class UserEntity {
     @JsonManagedReference("user-favRecipe")
     private List<FavRecipeEntity> favoriteRecipes;
 
-    // One-to-Many with Recipes
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeEntity> recipes;
+    
     // Default constructor
     public UserEntity() {
         super();

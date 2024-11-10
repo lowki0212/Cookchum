@@ -55,8 +55,9 @@ public class UserService {
 
     // DELETE
     public void deleteUser(int id) {
-        UserEntity user = userrepository.findById(id)
+    	UserEntity user = userrepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find user with ID " + id));
         userrepository.delete(user);
+        System.out.print("User Deleted");
     }
 }

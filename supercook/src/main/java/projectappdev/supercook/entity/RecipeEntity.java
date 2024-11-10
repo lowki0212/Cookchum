@@ -2,6 +2,8 @@ package projectappdev.supercook.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,14 +27,18 @@ public class RecipeEntity {
     private String name;
     private String description;
     private float estimatedCost;
+    
+    @OneToMany(mappedBy = "recipe", orphanRemoval = true)
+    @JsonManagedReference("recipe-favRecipe")
+    private List<FavRecipeEntity> favRecipes;
 
-    // Many-to-One with User
+    // Many-to-One with Admin
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "adminId", nullable = false)
+    private AdminEntity admin;
 
     // One-to-Many with Ingredients
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientEntity> ingredients;
 
     public RecipeEntity() {
@@ -90,11 +96,18 @@ public class RecipeEntity {
         this.ingredients = ingredients;
     }
 
-    public UserEntity getUser () {
-        return user;
+    public AdminEntity getAdmin() {
+        return admin;
     }
 
-    public void setUser (UserEntity user) {
-        this.user = user;
+    public void setAdmin(AdminEntity admin) {
+        this.admin = admin;
+    }
+    
+    public List<FavRecipeEntity> getFavRecipes() {
+        return favRecipes;
+    }
+    public void setFavRecipes(List<FavRecipeEntity> favRecipes) {
+        this.favRecipes = favRecipes;
     }
 }

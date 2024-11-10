@@ -39,13 +39,13 @@ public class RecipeController {
 
     // Update operation (U in CRUD)
     @PutMapping("/updateRecipe/{id}")
-    public RecipeEntity updateRecipe(@PathVariable int id, @RequestBody RecipeEntity newRecipeDetails) {
+    public RecipeEntity updateRecipe(@PathVariable("id") int id, @RequestBody RecipeEntity newRecipeDetails) {
         return recipeService.updateRecipe(id, newRecipeDetails);
     }
 
     // Delete operation (D in CRUD)
     @DeleteMapping("/deleteRecipe/{id}")
-    public ResponseEntity<String> deleteRecipe(@PathVariable int id) {
+    public ResponseEntity<String> deleteRecipe(@PathVariable("id") int id) {
         boolean isDeleted = recipeService.deleteRecipe(id);
         if (isDeleted) {
             return ResponseEntity.ok("Recipe with ID " + id + " deleted successfully.");

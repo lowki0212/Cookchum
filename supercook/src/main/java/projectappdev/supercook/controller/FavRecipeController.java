@@ -24,7 +24,7 @@ public class FavRecipeController {
 		
 		
 		//Create of CRUD
-		@PostMapping(value = "/postFavRecipe", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/postFavRecipe", consumes = {"application/json", "application/json;charset=UTF-8"}, produces = "application/json")
 		public FavRecipeEntity postFavRecipeRecord(@RequestBody FavRecipeEntity recipe) {
 			 System.out.println("Received recipe: " + recipe);
 			return fserv.postFavRecipeRecord(recipe);
@@ -33,19 +33,16 @@ public class FavRecipeController {
 		//Read of CRUD
 		@GetMapping("/getFavRecipe")
 		public List<FavRecipeEntity> getFavRecipeRecord(){
-			System.out.println("getAllStudents method was called");
-			List<FavRecipeEntity> favRecipes = fserv.getFavRecipeRecord();
-		    favRecipes.forEach(fav -> System.out.println("Rating: " + fav.getRating()));
 			return fserv.getFavRecipeRecord();
 		}
 		//Update of CRUD
 		@PutMapping("/putFavRecipe")
-		public FavRecipeEntity putFavRecipeDetails(@RequestParam int id,@RequestBody FavRecipeEntity newFavRecipe){
+		public FavRecipeEntity putFavRecipeDetails(@RequestParam("id") int id,@RequestBody FavRecipeEntity newFavRecipe){
 			return fserv.putFavRecipeDetails(id, newFavRecipe);
 		}
 		//Delete of CRUD
 		@DeleteMapping("/deleteFavRecipe/{id}")
-		public String deteleFavRecipe(@PathVariable int id) {
+		public String deteleFavRecipe(@PathVariable("id") int id) {
 			return fserv.deteleFavRecipe(id);
 		}
 	

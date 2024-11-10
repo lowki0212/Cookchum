@@ -65,7 +65,7 @@ public class FavRecipeService {
 		FavRecipeEntity recipe = new FavRecipeEntity();
 		try {
 			recipe = frepo.findById(id).get();
-			recipe.setRating(newFavRecipe.getRating());
+			
 			 if (newFavRecipe.getDateAdded() != null) {  // Only set date if provided
 	                recipe.setDateAdded(newFavRecipe.getDateAdded());
 	            } else {
@@ -74,6 +74,8 @@ public class FavRecipeService {
 		}catch(NoSuchElementException nex) {
 			throw new NameNotFoundException("Student"+id+"not found");
 		}finally {
+			recipe.setRecipe(recipe.getRecipe());
+			recipe.setUser(recipe.getUser());
 			return frepo.save(recipe);
 		}
 	}

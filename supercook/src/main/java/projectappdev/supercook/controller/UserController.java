@@ -43,14 +43,14 @@ public class UserController {
 
     // UPDATE admin
     @PutMapping("/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable int id, @RequestBody UserEntity updatedUser) {
+    public ResponseEntity<UserEntity> updateUser(@PathVariable("id") int id, @RequestBody UserEntity updatedUser) {
         UserEntity updated = userservice.updateUserDetails(updatedUser, id);
         return ResponseEntity.ok(updated); // Return updated user with HTTP 200
     }
     
     // DELETE request to delete an admin by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") int id) {
         userservice.deleteUser(id);
         return ResponseEntity.noContent().build(); // Return 204 No Content
     }

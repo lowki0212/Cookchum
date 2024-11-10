@@ -13,7 +13,7 @@ import projectappdev.supercook.entity.FavRecipeEntity;
 @Repository
 public interface FavRecipeRepository extends JpaRepository<FavRecipeEntity, Integer>{
 	
-	//this is user-defined method to search a student record by name
+	//this is user-defined method to search a user record by name
 	public List<FavRecipeEntity> findByUser_UserId(int userId);
 
 	

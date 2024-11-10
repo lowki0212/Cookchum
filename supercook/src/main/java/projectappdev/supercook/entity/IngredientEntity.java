@@ -1,13 +1,8 @@
 package projectappdev.supercook.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ingredient")
@@ -15,25 +10,29 @@ public class IngredientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ingredient_Id")
+    @Column(name = "ingredient_id")
     private int ingredientId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
-    
+
+    // Many-to-One with Recipe
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonBackReference("recipe-ingredient")  // To prevent recursion in JSON
     private RecipeEntity recipe;
 
     // Default constructor
     public IngredientEntity() {}
 
-    // Parameterized constructor
-    public IngredientEntity(String name) {
+    public IngredientEntity(int ingredientId, String name, RecipeEntity recipe) {
+        this.ingredientId = ingredientId;
         this.name = name;
+        this.recipe = recipe;
     }
 
     // Getters and Setters
+
     public int getIngredientId() {
         return ingredientId;
     }
@@ -48,5 +47,13 @@ public class IngredientEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public RecipeEntity getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(RecipeEntity recipe) {
+        this.recipe = recipe;
     }
 }

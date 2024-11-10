@@ -1,65 +1,62 @@
 package projectappdev.supercook.controller;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import projectappdev.supercook.entity.IngredientEntity;
 import projectappdev.supercook.service.IngredientService;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/ingredients")
+@CrossOrigin(origins = "http://localhost:3000")
 public class IngredientController {
 
+    private final IngredientService ingredientService;
+
     @Autowired
-    private IngredientService ingredientService;
-    
+    public IngredientController(IngredientService ingredientService) {
+        this.ingredientService = ingredientService;
+    }
+
     @GetMapping("/print")
     public String print() {
-    	return "Hello Friend!";
+        return "Hello, Ingredient World!";
     }
 
-    // Create a new ingredient
-    @PostMapping("/postIngredients")
-    public IngredientEntity createIngredient(@RequestBody IngredientEntity ingredient) {
-        return ingredientService.saveIngredient(ingredient);
+    // Create operation (C in CRUD)
+    @PostMapping("/postIngredient")
+    public IngredientEntity postIngredient(@RequestBody IngredientEntity ingredient) {
+        return ingredientService.createIngredient(ingredient);
     }
 
-    // Get all ingredients
+    // Read operation (R in CRUD)
     @GetMapping("/getAllIngredients")
     public List<IngredientEntity> getAllIngredients() {
         return ingredientService.getAllIngredients();
     }
 
-    // Get ingredient by ID
-    @GetMapping("/getIngredients/{id}")
-    public ResponseEntity<IngredientEntity> getIngredientById(@PathVariable int id) {
-        Optional<IngredientEntity> ingredient = ingredientService.getIngredientById(id);
-        return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // Read operation by ID
+    /*@GetMapping("/getIngredient/{id}")
+    public IngredientEntity getIngredientById(@PathVariable int id) {
+        return ingredientService.getIngredientById(id);
+    }*/
+
+    // Update operation (U in CRUD)
+    @PutMapping("/updateIngredientName/{id}")
+    public IngredientEntity updateIngredientName(@PathVariable("id") int id, @RequestBody IngredientEntity name) {
+        return ingredientService.updateIngredientName(id, name);
     }
 
-    // Update an ingredient
-    @PutMapping("/updateIngredients/{id}")
-    public ResponseEntity<IngredientEntity> updateIngredient(@PathVariable int id, @RequestBody IngredientEntity ingredientDetails) {
-        Optional<IngredientEntity> existingIngredient = ingredientService.getIngredientById(id);
-        if (existingIngredient.isPresent()) {
-            IngredientEntity ingredient = existingIngredient.get();
-            ingredient.setName(ingredientDetails.getName());
-            return ResponseEntity.ok(ingredientService.saveIngredient(ingredient));
+    // Delete operation (D in CRUD)
+    @DeleteMapping("/deleteIngredient/{id}")
+    public String deleteIngredient(@PathVariable("id") int id) {
+        try {
+            return ingredientService.deleteIngredient(id);
+        } catch (NoSuchElementException e) {
+            return "Ingredient with ID " + id + " not found.";
         }
-        return ResponseEntity.notFound().build();
-    }
-
-    // Delete an ingredient
-    @DeleteMapping("/deleteIngredients/{id}")
-    public ResponseEntity<Void> deleteIngredient(@PathVariable int id) {
-        if (ingredientService.getIngredientById(id).isPresent()) {
-            ingredientService.deleteIngredient(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 }

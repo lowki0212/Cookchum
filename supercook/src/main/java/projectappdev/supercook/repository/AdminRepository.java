@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import projectappdev.supercook.entity.AdminEntity;
 
 @Repository
-public interface AdminRepository extends JpaRepository<AdminEntity, String> {
+public interface AdminRepository extends JpaRepository<AdminEntity, Integer> {
 }

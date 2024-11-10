@@ -8,7 +8,8 @@ public class SupercookApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SupercookApplication.class, args);
-		System.out.println("TEST");
+		System.out.println("TESTING");
+		//AWS
 	}
 
 }
