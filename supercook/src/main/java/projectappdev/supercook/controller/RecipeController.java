@@ -10,7 +10,7 @@ import projectappdev.supercook.service.RecipeService;
 
 @RestController
 @RequestMapping("/api/recipe")
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = "http://localhost:5173") 
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -21,30 +21,35 @@ public class RecipeController {
     }
 
     @GetMapping("/print")
+    @CrossOrigin(origins = "http://localhost:3000")
     public String print() {
         return "Hello, Recipe World!";
     }
 
     // Create operation (C in CRUD)
     @PostMapping("/postRecipe")
+    @CrossOrigin(origins = "http://localhost:3000")
     public RecipeEntity postRecipe(@RequestBody RecipeEntity recipe) {
         return recipeService.saveRecipe(recipe);
     }
 
     // Read operation (R in CRUD)
     @GetMapping("/getAllRecipes")
+    @CrossOrigin(origins = "http://localhost:3000")
     public List<RecipeEntity> getAllRecipes() {
         return recipeService.getAllRecipes();
     }
 
     // Update operation (U in CRUD)
     @PutMapping("/updateRecipe/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public RecipeEntity updateRecipe(@PathVariable("id") int id, @RequestBody RecipeEntity newRecipeDetails) {
         return recipeService.updateRecipe(id, newRecipeDetails);
     }
 
     // Delete operation (D in CRUD)
     @DeleteMapping("/deleteRecipe/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> deleteRecipe(@PathVariable("id") int id) {
         boolean isDeleted = recipeService.deleteRecipe(id);
         if (isDeleted) {
