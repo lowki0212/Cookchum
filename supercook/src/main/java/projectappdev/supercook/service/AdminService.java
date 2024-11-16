@@ -27,20 +27,17 @@ public class AdminService {
  
     // Login user
     public Boolean loginUser(AdminRequest loginRequest) {
-        Integer adminId;
-        try {
-            adminId = Integer.parseInt(loginRequest.getUserId());  // Convert String to Integer if needed
-        } catch (NumberFormatException e) {
-            return false;  // Return false if conversion fails
-        }
-       
-        Optional<AdminEntity> user = adrepo.findById(adminId);
-       
+        // Find the user by email (not adminId) and check password
+        Optional<AdminEntity> user = adrepo.findByEmail(loginRequest.getEmail());
+    
+        // Validate if user exists and password matches
         if (user.isPresent() && user.get().getPassword().equals(loginRequest.getPassword())) {
             return true;
         }
-        return false;
+    
+        return false; // Return false if no match found
     }
+    
    
     // Update user
     public AdminEntity updateUser(Integer adminId, AdminEntity updatedUser) {
