@@ -20,9 +20,10 @@ public class RecipeService {
     }
 
     // Get a recipe by ID
-    public Optional<RecipeEntity> getRecipeById(int id) {
-        return recipeRepository.findById(id);
+    public Optional<RecipeEntity> getRecipeById(Integer recipeId) {
+        return recipeRepository.findById(recipeId); // Assuming recipeRepository is a JPA repository
     }
+    
 
     // Add a new recipe
     public RecipeEntity saveRecipe(RecipeEntity recipe) {

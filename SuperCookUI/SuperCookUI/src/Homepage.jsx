@@ -76,7 +76,7 @@ const Homepage = () => {
                 <div style={styles.ingredients}>
                   {recipe.ingredients.map((ingredient, index) => (
                     <span key={index} style={styles.ingredientTag}>
-                      {ingredient}
+                      {ingredient.name}
                     </span>
                   ))}
                 </div>

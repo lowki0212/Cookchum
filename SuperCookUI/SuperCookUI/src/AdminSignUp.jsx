@@ -1,48 +1,59 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
-const AdminLogin = () => {
+const AdminSignUp = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate(); // Initialize navigate here
-
-  const handleLogin = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
-    const loginData = {
-      email, // Updated to match backend structure
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    const signUpData = {
+      name,
+      email,
       password,
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/loginUser', loginData);
+      const response = await axios.post('http://localhost:8080/signUpAdmin', signUpData);
       if (response.data) {
-        alert('Login successful!');
-        navigate('/ManageRecipe'); // Redirect to /ManageRecipe
+        alert('Admin account created successfully!');
+        navigate('/AdminLogin'); // Redirect to AdminLogin page after successful sign up
       } else {
-        setError('Invalid email or password.');
+        setError('Something went wrong. Please try again later.');
       }
     } catch (err) {
-      console.error('Error during login:', err);
+      console.error('Error during sign-up:', err);
       setError('An error occurred. Please try again later.');
     }
   };
 
-  const handleBack = () => {
-    navigate('/'); // Navigate to the homepage
-  };
-
-  const handleSignUp = () => {
-    navigate('/AdminSignUp'); // Navigate to the sign-up page
-  };
-
   return (
     <div style={styles.container}>
-      <h2 style={styles.heading}>Admin Login</h2>
-      <form onSubmit={handleLogin} style={styles.form}>
+      <h2 style={styles.heading}>Admin Sign-Up</h2>
+      <form onSubmit={handleSignUp} style={styles.form}>
+        <div style={styles.inputGroup}>
+          <label htmlFor="name" style={styles.label}>Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={styles.input}
+            placeholder="Enter your name"
+            required
+          />
+        </div>
         <div style={styles.inputGroup}>
           <label htmlFor="email" style={styles.label}>Email:</label>
           <input
@@ -67,11 +78,21 @@ const AdminLogin = () => {
             required
           />
         </div>
+        <div style={styles.inputGroup}>
+          <label htmlFor="confirmPassword" style={styles.label}>Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            style={styles.input}
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
         {error && <p style={styles.error}>{error}</p>}
-        <button type="submit" style={styles.button}>Login</button>
+        <button type="submit" style={styles.button}>Sign Up</button>
       </form>
-      <button onClick={handleBack} style={styles.backButton}>Back to Homepage</button> {/* Back Button */}
-      <button onClick={handleSignUp} style={styles.signUpButton}>No account yet? Sign up as admin</button> {/* Sign up Button */}
     </div>
   );
 };
@@ -128,30 +149,6 @@ const styles = {
     width: '100%',
     maxWidth: '510px',
   },
-  backButton: {
-    backgroundColor: '#f0f0f0',
-    color: '#007BFF',
-    border: 'none',
-    borderRadius: '4px',
-    padding: '10px 15px',
-    fontSize: '14px',
-    cursor: 'pointer',
-    marginTop: '20px',
-    width: '100%',
-    maxWidth: '510px',
-  },
-  signUpButton: {
-    backgroundColor: '#f0f0f0',
-    color: '#007BFF',
-    border: 'none',
-    borderRadius: '4px',
-    padding: '10px 15px',
-    fontSize: '14px',
-    cursor: 'pointer',
-    marginTop: '20px',
-    width: '100%',
-    maxWidth: '510px',
-  },
 };
 
-export default AdminLogin;
+export default AdminSignUp;

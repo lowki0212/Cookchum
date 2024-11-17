@@ -36,6 +36,11 @@ public class IngredientService {
         return ingredientRepository.save(ingredient);
     }
 
+    public IngredientEntity saveIngredient(IngredientEntity ingredient) {
+        return ingredientRepository.save(ingredient);
+    }
+    
+
     // Get all ingredients (R in CRUD)
     public List<IngredientEntity> getAllIngredients() {
         return ingredientRepository.findAll();

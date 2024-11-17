@@ -1,61 +1,95 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Install axios with npm install axios
+import axios from "axios";
 
 const AddIngredients = () => {
   const [recipes, setRecipes] = useState([]); // List of available recipes
   const [selectedRecipeId, setSelectedRecipeId] = useState(null); // Selected recipe ID
   const [ingredients, setIngredients] = useState([]); // List of ingredients
   const [newIngredient, setNewIngredient] = useState(""); // Input for new ingredient
-  const [currentIngredientId, setCurrentIngredientId] = useState(null); // ID of ingredient being edited
+  const [editingIngredientId, setEditingIngredientId] = useState(null); // ID of ingredient being edited
+  const [editedIngredientName, setEditedIngredientName] = useState(""); // Edited ingredient name
   const navigate = useNavigate();
 
-  const API_URL = "http://localhost:8080/api/ingredients"; // Replace with your backend API URL
+  const API_URL_INGREDIENTS = "http://localhost:8080/api/ingredients";
+  const API_URL_RECIPES = "http://localhost:8080/api/recipe";
 
-  // Fetch ingredients from the backend on component mount
+  // Fetch ingredients and recipes from the backend on component mount
   useEffect(() => {
-    const fetchIngredients = async () => {
+    const fetchIngredientsAndRecipes = async () => {
       try {
-        const response = await axios.get(`${API_URL}/getAllIngredients`); // Fixed here
-        setIngredients(response.data); // Assume the API returns an array of ingredients
+        // Fetch recipes
+        const recipesResponse = await axios.get(`${API_URL_RECIPES}/getAllRecipes`);
+        setRecipes(recipesResponse.data);
+
+        // Fetch ingredients
+        const ingredientsResponse = await axios.get(`${API_URL_INGREDIENTS}/getAllIngredients`);
+        setIngredients(ingredientsResponse.data);
       } catch (error) {
-        console.error("Error fetching ingredients:", error);
+        console.error("Error fetching data:", error.message);
+        alert("Failed to fetch data. Please check your server.");
       }
     };
-    fetchIngredients();
+
+    fetchIngredientsAndRecipes();
   }, []);
 
   const handleAddIngredient = async () => {
-    if (newIngredient.trim()) {
+    if (newIngredient.trim() && selectedRecipeId) {
       try {
-        const response = await axios.post(`${API_URL}/postIngredient`, { // Fixed here
+        const response = await axios.post(`${API_URL_INGREDIENTS}/postIngredient`, {
           name: newIngredient.trim(),
+          recipeId: selectedRecipeId, // Include recipe ID in the request body
         });
-        setIngredients([...ingredients, response.data]); // Add the new ingredient from the response
+        setIngredients([...ingredients, response.data]); // Add the new ingredient
         setNewIngredient("");
       } catch (error) {
-        console.error("Error adding ingredient:", error);
+        console.error("Error adding ingredient:", error.message);
+        alert("Failed to add ingredient. Please ensure all fields are filled correctly.");
       }
+    } else {
+      alert("Please select a recipe and enter an ingredient.");
     }
   };
 
   const handleDeleteIngredient = async (id) => {
     try {
-      await axios.delete(`${API_URL}/deleteIngredient/${id}`); // Fixed here
+      await axios.delete(`${API_URL_INGREDIENTS}/deleteIngredient/${id}`);
       setIngredients(ingredients.filter((ingredient) => ingredient.ingredientId !== id));
     } catch (error) {
-      console.error("Error deleting ingredient:", error);
+      console.error("Error deleting ingredient:", error.message);
     }
   };
 
-  const handleEditIngredient = async (id) => {
-    const ingredient = ingredients.find((ingredient) => ingredient.ingredientId === id);
-    if (ingredient) {
-      setNewIngredient(ingredient.name);
-      setIngredients(ingredients.filter((ingredient) => ingredient.ingredientId !== id));
-      // Update the ingredient after editing
-      const updatedIngredient = { ingredientId: id, name: newIngredient };
-      await axios.put(`${API_URL}/updateIngredientName/${id}`, updatedIngredient); // Fixed here
+  const handleEditIngredient = (id, currentName) => {
+    setEditingIngredientId(id);
+    setEditedIngredientName(currentName);
+  };
+
+  const handleSaveEdit = async () => {
+    if (editedIngredientName.trim()) {
+      try {
+        const response = await axios.put(`${API_URL_INGREDIENTS}/updateIngredientName/${editingIngredientId}`, {
+          name: editedIngredientName.trim(),
+        });
+
+        // Update the ingredients list with the edited ingredient
+        setIngredients(
+          ingredients.map((ingredient) =>
+            ingredient.ingredientId === editingIngredientId
+              ? { ...ingredient, name: editedIngredientName }
+              : ingredient
+          )
+        );
+
+        setEditingIngredientId(null); // Clear the editing state
+        setEditedIngredientName("");
+      } catch (error) {
+        console.error("Error updating ingredient:", error.message);
+        alert("Failed to update ingredient.");
+      }
+    } else {
+      alert("Please enter a valid ingredient name.");
     }
   };
 
@@ -63,30 +97,18 @@ const AddIngredients = () => {
     <div style={styles.container}>
       {/* Navbar */}
       <nav style={styles.navbar}>
-        <div style={styles.logoContainer}>
-          <h1 style={styles.logo}>CookChum</h1>
-        </div>
+        <h1 style={styles.logo}>CookChum</h1>
         <div style={styles.navLinks}>
-          <button
-            style={styles.navButton}
-            onClick={() => navigate("/ManageRecipe")}
-          >
+          <button style={styles.navButton} onClick={() => navigate("/ManageRecipe")}>
             Manage Recipe
           </button>
-          <button
-            style={styles.navButton}
-            onClick={() => navigate("/AddIngredients")}
-          >
+          <button style={styles.navButton} onClick={() => navigate("/AddIngredients")}>
             Add Ingredients
           </button>
+          <button style={styles.logoutButton} onClick={() => navigate("/AdminLogin")}>
+            Sign Out
+          </button>
         </div>
-        <input type="search" placeholder="Search" style={styles.searchBar} />
-        <button
-          style={styles.logoutButton}
-          onClick={() => navigate("/AdminLogin")}
-        >
-          Sign Out
-        </button>
       </nav>
 
       {/* Content */}
@@ -94,18 +116,36 @@ const AddIngredients = () => {
         {/* Add Ingredients Section */}
         <div style={styles.addIngredientContainer}>
           <h2 style={styles.sectionTitle}>Add Ingredients</h2>
+
+          {/* Recipe Selection */}
+          <div style={styles.selectRecipe}>
+            <h3>Select Recipe</h3>
+            <select
+              value={selectedRecipeId || ""}
+              onChange={(e) => setSelectedRecipeId(e.target.value)}
+              style={styles.input}
+            >
+              <option value="" disabled>
+                Select a recipe
+              </option>
+              {recipes.map((recipe) => (
+                <option key={recipe.recipeId} value={recipe.recipeId}>
+                  {recipe.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Add Ingredient Input */}
           <input
             type="text"
             value={newIngredient}
             onChange={(e) => setNewIngredient(e.target.value)}
-            placeholder="Ingredients"
+            placeholder="Ingredient"
             style={styles.input}
           />
           <div style={styles.buttons}>
-            <button
-              style={styles.cancelButton}
-              onClick={() => setNewIngredient("")}
-            >
+            <button style={styles.cancelButton} onClick={() => setNewIngredient("")}>
               Cancel
             </button>
             <button style={styles.addButton} onClick={handleAddIngredient}>
@@ -122,21 +162,35 @@ const AddIngredients = () => {
           ) : (
             ingredients.map((ingredient) => (
               <div key={ingredient.ingredientId} style={styles.ingredientItem}>
-                <span style={styles.ingredientName}>{ingredient.name}</span>
-                <div>
-                  <button
-                    style={styles.deleteButton}
-                    onClick={() => handleDeleteIngredient(ingredient.ingredientId)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    style={styles.editButton}
-                    onClick={() => handleEditIngredient(ingredient.ingredientId)}
-                  >
-                    Edit
-                  </button>
-                </div>
+                {editingIngredientId === ingredient.ingredientId ? (
+                  <div style={styles.editingInput}>
+                    <input
+                      type="text"
+                      value={editedIngredientName}
+                      onChange={(e) => setEditedIngredientName(e.target.value)}
+                      style={styles.input}
+                    />
+                    <button style={styles.addButton} onClick={handleSaveEdit}>
+                      Save
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <span style={styles.ingredientName}>{ingredient.name}</span>
+                    <button
+                      style={styles.editButton}
+                      onClick={() => handleEditIngredient(ingredient.ingredientId, ingredient.name)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      style={styles.deleteButton}
+                      onClick={() => handleDeleteIngredient(ingredient.ingredientId)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             ))
           )}
@@ -145,9 +199,6 @@ const AddIngredients = () => {
     </div>
   );
 };
-
-
-
 
 const styles = {
   container: {
@@ -266,17 +317,23 @@ const styles = {
   },
   ingredientItem: {
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "15px",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    justifyContent: "flex-start", // Align items to the start
+    gap: "10px", // Adds space between items
   },
+  
   ingredientName: {
     fontSize: "16px",
     fontWeight: "bold",
+    flex: 1, // Makes the ingredient name take available space but not too much
+    whiteSpace: "nowrap", // Prevent the text from wrapping
+    overflow: "hidden", // Ensure text doesn't overflow
+    textOverflow: "ellipsis", // Show ellipsis for long text
   },
   deleteButton: {
     backgroundColor: "#f44336",
@@ -298,5 +355,6 @@ const styles = {
     fontSize: "14px",
   },
 };
+
 
 export default AddIngredients;
