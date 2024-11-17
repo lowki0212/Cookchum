@@ -11,7 +11,7 @@ import projectappdev.supercook.service.IngredientService;
 
 @RestController
 @RequestMapping("/api/ingredients")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class IngredientController {
 
     private final IngredientService ingredientService;

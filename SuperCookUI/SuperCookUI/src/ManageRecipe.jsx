@@ -3,32 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ManageRecipe = () => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([]); // List of recipes
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     estimatedCost: "",
-    ingredients: [],
   });
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [currentRecipeId, setCurrentRecipeId] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false); // Toggle between add and edit modes
+  const [currentRecipeId, setCurrentRecipeId] = useState(null); // ID of the recipe being edited
   const navigate = useNavigate();
-
-  const ingredientsList = [
-    "Garlic",
-    "Rice",
-    "Soy Sauce",
-    "Onion",
-    "Chili Powder",
-    "Vinegar",
-    "Sugar",
-    "Chicken",
-    "Smoke Paprika Powder",
-    "Ground Beef",
-    "Hungarian Sausage",
-    "Tomato Sauce",
-    "Tomato Paste",
-  ];
 
   // Fetch all recipes from the backend
   useEffect(() => {
@@ -49,18 +32,6 @@ const ManageRecipe = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleToggleIngredient = (ingredient) => {
-    setFormData((prev) => {
-      const isSelected = prev.ingredients.includes(ingredient);
-      return {
-        ...prev,
-        ingredients: isSelected
-          ? prev.ingredients.filter((ing) => ing !== ingredient)
-          : [...prev.ingredients, ingredient],
-      };
     });
   };
 
@@ -92,8 +63,7 @@ const ManageRecipe = () => {
         name: formData.name,
         description: formData.description,
         estimatedCost: parseFloat(formData.estimatedCost),
-        ingredients: formData.ingredients,
-        admin: { adminId: 1 },
+        admin: { adminId: 1 }, // Include admin info if required
       });
       setRecipes([...recipes, response.data]);
       resetForm();
@@ -109,7 +79,6 @@ const ManageRecipe = () => {
         name: formData.name,
         description: formData.description,
         estimatedCost: parseFloat(formData.estimatedCost),
-        ingredients: formData.ingredients,
       });
       setRecipes((prev) =>
         prev.map((recipe) =>
@@ -141,7 +110,6 @@ const ManageRecipe = () => {
       name: recipe.name,
       description: recipe.description,
       estimatedCost: recipe.estimatedCost,
-      ingredients: recipe.ingredients,
     });
     setIsEditMode(true);
     setCurrentRecipeId(recipe.recipeId);
@@ -152,7 +120,6 @@ const ManageRecipe = () => {
       name: "",
       description: "",
       estimatedCost: "",
-      ingredients: [],
     });
     setIsEditMode(false);
     setCurrentRecipeId(null);
@@ -179,7 +146,7 @@ const ManageRecipe = () => {
       <div style={styles.content}>
         {/* Add/Edit Recipe Form */}
         <div style={styles.addRecipeContainer}>
-          <h2 style={styles.sectionTitle}>Add Recipe and Manage Recipe</h2>
+          <h2 style={styles.sectionTitle}>{isEditMode ? "Edit Recipe" : "Add Recipe"}</h2>
           <form onSubmit={handleSubmit}>
             <div style={styles.inputGroup}>
               <label style={styles.label}>Recipe Title</label>
@@ -213,27 +180,6 @@ const ManageRecipe = () => {
                 placeholder="Enter cost in USD"
               />
             </div>
-            <div style={styles.ingredientsContainer}>
-              <h3 style={styles.ingredientsTitle}>Ingredients</h3>
-              <div style={styles.ingredientsList}>
-                {ingredientsList.map((ingredient, index) => (
-                  <button
-                    key={index}
-                    style={{
-                      ...styles.ingredientItem,
-                      backgroundColor: formData.ingredients.includes(ingredient)
-                        ? "#4CAF50"
-                        : "#f5f5f5",
-                      color: formData.ingredients.includes(ingredient) ? "#fff" : "#333",
-                    }}
-                    onClick={() => handleToggleIngredient(ingredient)}
-                    type="button"
-                  >
-                    {ingredient}
-                  </button>
-                ))}
-              </div>
-            </div>
             <div style={styles.buttons}>
               <button style={styles.cancelButton} onClick={resetForm} type="button">
                 Cancel
@@ -247,22 +193,22 @@ const ManageRecipe = () => {
 
         {/* Edit/Delete Recipe Section */}
         <div style={styles.recipeListContainer}>
-          <h2 style={styles.sectionTitle}>Edit and Delete Recipe</h2>
+          <h2 style={styles.sectionTitle}>Recipes</h2>
           {recipes.map((recipe) => (
             <div key={recipe.recipeId} style={styles.recipeItem}>
               <span style={styles.recipeTitle}>{recipe.name}</span>
               <div>
                 <button
-                  style={styles.deleteButton}
-                  onClick={() => handleDeleteRecipe(recipe.recipeId)}
-                >
-                  Delete
-                </button>
-                <button
                   style={styles.editButton}
                   onClick={() => handleEditRecipe(recipe)}
                 >
                   Edit
+                </button>
+                <button
+                  style={styles.deleteButton}
+                  onClick={() => handleDeleteRecipe(recipe.recipeId)}
+                >
+                  Delete
                 </button>
               </div>
             </div>
@@ -272,8 +218,6 @@ const ManageRecipe = () => {
     </div>
   );
 };
-
-
 
 
 
