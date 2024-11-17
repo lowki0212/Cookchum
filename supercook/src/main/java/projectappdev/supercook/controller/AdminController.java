@@ -22,7 +22,6 @@ public class AdminController {
  
     @Autowired
     AdminService userService;
-    
  
     @PostMapping("/addUser")
     @CrossOrigin(origins = "http://localhost:3000")

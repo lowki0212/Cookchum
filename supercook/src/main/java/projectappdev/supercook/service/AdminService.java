@@ -37,11 +37,6 @@ public class AdminService {
     
         return false; // Return false if no match found
     }
-
-    public Optional<AdminEntity> findByEmail(String email) {
-        return adrepo.findByEmail(email);  // Calls the repository's findByEmail method
-    }
-    
     
    
     // Update user
