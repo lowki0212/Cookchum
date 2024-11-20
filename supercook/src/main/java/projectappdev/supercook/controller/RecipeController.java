@@ -36,7 +36,12 @@ public class RecipeController {
     public List<RecipeEntity> getAllRecipes() {
         return recipeService.getAllRecipes();
     }
-
+    @GetMapping("/getRecipe/{id}")
+    public ResponseEntity<RecipeEntity> getRecipeById(@PathVariable int id) {
+        return recipeService.getRecipeById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
     // Update operation (U in CRUD)
     @PutMapping("/updateRecipe/{id}")
     public RecipeEntity updateRecipe(@PathVariable("id") int id, @RequestBody RecipeEntity newRecipeDetails) {

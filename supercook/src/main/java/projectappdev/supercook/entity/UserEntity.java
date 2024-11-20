@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -26,7 +27,7 @@ public class UserEntity {
     
     // One-to-Many with Favorite Recipes
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("user-favRecipe")
+    @JsonBackReference("user-favRecipe")
     private List<FavRecipeEntity> favoriteRecipes;
 
     

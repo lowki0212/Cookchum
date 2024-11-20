@@ -16,7 +16,7 @@ public interface FavRecipeRepository extends JpaRepository<FavRecipeEntity, Inte
 	//this is user-defined method to search a user record by name
 	public List<FavRecipeEntity> findByUser_UserId(int userId);
 
-	
+
 	
 	//you may define more methods for searching, for instance, in this interface
 

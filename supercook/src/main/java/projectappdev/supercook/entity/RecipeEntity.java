@@ -2,6 +2,8 @@ package projectappdev.supercook.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -29,7 +31,7 @@ public class RecipeEntity {
     private float estimatedCost;
     
     @OneToMany(mappedBy = "recipe", orphanRemoval = true)
-    @JsonManagedReference("recipe-favRecipe")
+    @JsonBackReference("recipe-favRecipe")
     private List<FavRecipeEntity> favRecipes;
 
     // Many-to-One with Admin

@@ -59,6 +59,9 @@ public class FavRecipeService {
 	public List<FavRecipeEntity> getFavRecipeRecord(){
 		return frepo.findAll();
 	}
+	public List<FavRecipeEntity> getFavRecipeRecordByUserId(int userId) {
+	    return frepo.findByUser_UserId(userId); // Assuming your repository supports this method
+	}
 	//Update of CRUD
 	@SuppressWarnings("finally")
 	public FavRecipeEntity putFavRecipeDetails(int id,FavRecipeEntity newFavRecipe) {

@@ -1,9 +1,11 @@
-	package projectappdev.supercook.entity;
+package projectappdev.supercook.entity;
 	
 	import java.time.LocalDate;
 	
 	import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 	
 	import jakarta.persistence.CascadeType;
@@ -18,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	
 	@Entity
 	@Table(name = "fav_recipe")
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public class FavRecipeEntity {
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +35,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	    // Many-to-One with User
 	    @ManyToOne
 	    @JoinColumn(name = "user_id", nullable = false)
-	    @JsonBackReference("user-favRecipe")
+	    
 	    private UserEntity user;
 	
 	    // Many-to-One with Recipe
 	    @ManyToOne
 	    @JoinColumn(name = "recipe_id",nullable = false)
-	    @JsonBackReference("recipe-favRecipe")
+	   
 	    private RecipeEntity recipe;
 	    		
 	    public FavRecipeEntity() {
