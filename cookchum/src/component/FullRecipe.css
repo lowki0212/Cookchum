@@ -1,0 +1,13 @@
+.add-favorite-button {
+    background-color: #ffcccb;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-favorite-button:hover {
+    background-color: #ff9999;
+  }
