@@ -17,24 +17,36 @@ import projectappdev.supercook.entity.AdminEntity;
 import projectappdev.supercook.service.AdminService;
  
 import java.util.List;
+import java.util.Map;
  
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
  
     @Autowired
     AdminService userService;
  
     @PostMapping("/addUser")
-    @CrossOrigin(origins = "http://localhost:3000")
     public AdminEntity addUser(@RequestBody AdminEntity user) {
         return userService.addUser(user);
     }
- 
+    /*
     @PostMapping("/loginUser")
     @CrossOrigin(origins = "http://localhost:3000")
     public Boolean loginUser(@RequestBody AdminRequest loginRequest) {
         return userService.loginUser(loginRequest);
+    }*/
+    
+    
+    @PostMapping("/loginUser")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public Boolean loginUser(@RequestBody Map<String, String> payload) {
+        // Extract email and password from the payload
+        String email = payload.get("email");
+        String password = payload.get("password");
+
+        // Call the updated service method
+        return userService.loginUser(email, password);
     }
  
     // Update user endpoint

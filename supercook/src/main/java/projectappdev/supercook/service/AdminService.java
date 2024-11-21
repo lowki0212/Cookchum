@@ -26,7 +26,7 @@ public class AdminService {
     }
  
     // Login user
-    public Boolean loginUser(AdminRequest loginRequest) {
+    /*public Boolean loginUser(AdminRequest loginRequest) {
         Integer adminId;
         try {
             adminId = Integer.parseInt(loginRequest.getUserId());  // Convert String to Integer if needed
@@ -37,6 +37,15 @@ public class AdminService {
         Optional<AdminEntity> user = adrepo.findById(adminId);
        
         if (user.isPresent() && user.get().getPassword().equals(loginRequest.getPassword())) {
+            return true;
+        }
+        return false;
+    }*/
+    
+    public Boolean loginUser(String email, String password) {
+        Optional<AdminEntity> user = adrepo.findByEmail(email);
+
+        if (user.isPresent() && user.get().getPassword().equals(password)) {
             return true;
         }
         return false;
