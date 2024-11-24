@@ -3,17 +3,19 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ManageRecipe = () => {
-  const [recipes, setRecipes] = useState([]); // List of recipes
+  const [recipes, setRecipes] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     estimatedCost: "",
   });
-  const [isEditMode, setIsEditMode] = useState(false); // Toggle between add and edit modes
-  const [currentRecipeId, setCurrentRecipeId] = useState(null); // ID of the recipe being edited
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentRecipeId, setCurrentRecipeId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [image, setImage] = useState(null); // Image file state
   const navigate = useNavigate();
 
-  // Fetch all recipes from the backend
+  // Fetch all recipes
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -24,36 +26,37 @@ const ManageRecipe = () => {
         alert("Failed to fetch recipes. Please check your server.");
       }
     };
-
     fetchRecipes();
   }, []);
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
+
+  const filteredRecipes = recipes.filter((recipe) =>
+    recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.name || !formData.description || !formData.estimatedCost) {
-      alert("All fields are required!");
-      return;
-    }
-
-    if (isEditMode) {
-      const confirmUpdate = window.confirm("Are you sure you want to update this recipe?");
-      if (confirmUpdate) {
-        await handleUpdateRecipe();
-      }
-    } else {
-      const confirmAdd = window.confirm("Are you sure you want to add this recipe?");
-      if (confirmAdd) {
-        await handleAddRecipe();
-        alert("Recipe Added");
-      }
+    
+    const formDataToSubmit = new FormData();
+    formDataToSubmit.append('name', formData.name);  // Using formData.name instead of 'name'
+    formDataToSubmit.append('description', formData.description);  // Using formData.description
+    formDataToSubmit.append('estimatedCost', formData.estimatedCost);  // Using formData.estimatedCost
+    formDataToSubmit.append('file', image);  // Using image as the file object
+    formDataToSubmit.append('admin', JSON.stringify({ adminId: 1 }));  // Assuming admin object with adminId 1
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/recipe/postRecipe', formDataToSubmit, {
+        headers: {
+          'Content-Type': 'multipart/form-data',  // Important for file upload
+        },
+      });
+      console.log('Recipe added successfully', response.data);
+    } catch (error) {
+      console.error('Error submitting recipe:', error.response?.data || error.message);
     }
   };
 
@@ -63,10 +66,11 @@ const ManageRecipe = () => {
         name: formData.name,
         description: formData.description,
         estimatedCost: parseFloat(formData.estimatedCost),
-        admin: { adminId: 1 }, // Include admin info if required
+        admin: { adminId: 1 },
       });
       setRecipes([...recipes, response.data]);
       resetForm();
+      alert("Recipe added successfully!");
     } catch (error) {
       console.error("Error adding recipe:", error.message);
       alert("Failed to add recipe. Please try again.");
@@ -86,6 +90,7 @@ const ManageRecipe = () => {
         )
       );
       resetForm();
+      alert("Recipe updated successfully!");
     } catch (error) {
       console.error("Error updating recipe:", error.message);
       alert("Failed to update recipe. Please try again.");
@@ -93,11 +98,11 @@ const ManageRecipe = () => {
   };
 
   const handleDeleteRecipe = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this recipe?");
-    if (confirmDelete) {
+    if (window.confirm("Are you sure you want to delete this recipe?")) {
       try {
         await axios.delete(`http://localhost:8080/api/recipe/deleteRecipe/${id}`);
         setRecipes(recipes.filter((recipe) => recipe.recipeId !== id));
+        alert("Recipe deleted successfully!");
       } catch (error) {
         console.error("Error deleting recipe:", error.message);
         alert("Failed to delete recipe. Please try again.");
@@ -116,14 +121,20 @@ const ManageRecipe = () => {
   };
 
   const resetForm = () => {
-    setFormData({
-      name: "",
-      description: "",
-      estimatedCost: "",
-    });
+    setFormData({ name: "", description: "", estimatedCost: "" });
+    setImage(null);
     setIsEditMode(false);
     setCurrentRecipeId(null);
   };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);  // Update the state with the selected file
+    console.log(file);  // Check if it's a valid file object
+  };
+
+
+  const handleViewDetails = (recipeId) => navigate(`/recipeDetails/${recipeId}`);
 
   return (
     <div style={styles.container}>
@@ -143,10 +154,12 @@ const ManageRecipe = () => {
         </div>
       </nav>
 
+      {/* Content */}
       <div style={styles.content}>
         {/* Add/Edit Recipe Form */}
         <div style={styles.addRecipeContainer}>
           <h2 style={styles.sectionTitle}>{isEditMode ? "Edit Recipe" : "Add Recipe"}</h2>
+          
           <form onSubmit={handleSubmit}>
             <div style={styles.inputGroup}>
               <label style={styles.label}>Recipe Title</label>
@@ -159,6 +172,13 @@ const ManageRecipe = () => {
                 placeholder="Recipe Name"
               />
             </div>
+            
+            {/* Upload Image */}
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Upload Recipe Image</label>
+              <input type="file" onChange={handleImageChange} style={styles.input} />
+            </div>
+
             <div style={styles.inputGroup}>
               <label style={styles.label}>Description and Instruction</label>
               <textarea
@@ -191,35 +211,34 @@ const ManageRecipe = () => {
           </form>
         </div>
 
-        {/* Edit/Delete Recipe Section */}
+        {/* Recipe List Section */}
         <div style={styles.recipeListContainer}>
           <h2 style={styles.sectionTitle}>Recipes</h2>
-          {recipes.map((recipe) => (
-            <div key={recipe.recipeId} style={styles.recipeItem}>
-              <span style={styles.recipeTitle}>{recipe.name}</span>
-              <div>
-                <button
-                  style={styles.editButton}
-                  onClick={() => handleEditRecipe(recipe)}
-                >
-                  Edit
-                </button>
-                <button
-                  style={styles.deleteButton}
-                  onClick={() => handleDeleteRecipe(recipe.recipeId)}
-                >
-                  Delete
-                </button>
+          {recipes.length === 0 ? (
+            <p style={{ textAlign: "center", color: "#777" }}>No recipes available. Add a new one!</p>
+          ) : (
+            filteredRecipes.map((recipe) => (
+              <div key={recipe.recipeId} style={styles.recipeItem}>
+                <span style={styles.recipeTitle}>{recipe.name}</span>
+                <div>
+                  <button style={styles.editButton} onClick={() => handleEditRecipe(recipe)}>
+                    Edit
+                  </button>
+                  <button style={styles.deleteButton} onClick={() => handleDeleteRecipe(recipe.recipeId)}>
+                    Delete
+                  </button>
+                  <button style={styles.viewDetailsButton} onClick={() => handleViewDetails(recipe.recipeId)}>
+                    View Details
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 };
-
-
 
 
 // Styling

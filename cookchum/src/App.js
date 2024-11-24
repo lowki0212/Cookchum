@@ -9,6 +9,8 @@ import AdminLogin from './component/AdminLogin'; // Adjust the path if needed
 import ManageRecipe from './component/ManageRecipe'; // Import ManageRecipe
 import AddIngredients from './component/AddIngredients';
 import AdminSignUp from './component/AdminSignUp'
+import RecipeDetails from './component/RecipeDetails';
+
 
 function App() {
     return (
@@ -24,6 +26,7 @@ function App() {
                 <Route path="/AddIngredients" element={<AddIngredients />} />
                 <Route path="/AdminLogin" element={<AdminLogin />} />
                 <Route path="/ManageRecipe" element={<ManageRecipe />} />
+                <Route path="/recipeDetails/:recipeId" element={<RecipeDetails />} />
             </Routes>
         </Router>
     );

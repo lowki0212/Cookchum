@@ -29,6 +29,9 @@ public class RecipeEntity {
     private String name;
     private String description;
     private float estimatedCost;
+
+    @Column(name = "image_url", nullable = true)
+    private String imageUrl;
     
     @OneToMany(mappedBy = "recipe", orphanRemoval = true)
     @JsonBackReference("recipe-favRecipe")
@@ -47,13 +50,14 @@ public class RecipeEntity {
         super();
     }
 
-    public RecipeEntity(int recipeId, String name, String description, float estimatedCost, List<IngredientEntity> ingredients) {
+    public RecipeEntity(int recipeId, String name, String description, String imageUrl, float estimatedCost, List<IngredientEntity> ingredients) {
         super();
         this.recipeId = recipeId;
         this.name = name;
         this.description = description;
         this.estimatedCost = estimatedCost;
         this.ingredients = ingredients;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and setters
@@ -111,5 +115,13 @@ public class RecipeEntity {
     }
     public void setFavRecipes(List<FavRecipeEntity> favRecipes) {
         this.favRecipes = favRecipes;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -44,7 +44,7 @@ const Dashboard = () => {
     if (!loggedIn) {
       navigate("/login");
     } else {
-      navigate("/full-recipe", { state: { recipe: selectedRecipe,userId  } });
+      navigate("/full-recipe", { state: { recipe: selectedRecipe, userId } });
     }
   };
 
@@ -115,6 +115,13 @@ const Dashboard = () => {
                 className="recipe-card"
                 onClick={() => handleRecipeClick(recipe)}
               >
+                {recipe.imageUrl && (
+                  <img
+                    src={recipe.imageUrl}
+                    alt={recipe.name}
+                    className="recipe-image"
+                  />
+                )}
                 <h4>{recipe.name}</h4>
                 <p>{recipe.description.substring(0, 50)}...</p>
               </div>
@@ -128,6 +135,13 @@ const Dashboard = () => {
         {selectedRecipe && (
           <div className="recipe-popup">
             <h4>{selectedRecipe.name}</h4>
+            {selectedRecipe.imageUrl && (
+              <img
+                src={selectedRecipe.imageUrl}
+                alt={selectedRecipe.name}
+                className="popup-image"
+              />
+            )}
             <p>{selectedRecipe.description}</p>
             <button onClick={handleViewFullRecipe}>View Full Recipe</button>
           </div>
