@@ -40,23 +40,43 @@ const ManageRecipe = () => {
   );
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     const formDataToSubmit = new FormData();
-    formDataToSubmit.append('name', formData.name);  // Using formData.name instead of 'name'
-    formDataToSubmit.append('description', formData.description);  // Using formData.description
-    formDataToSubmit.append('estimatedCost', formData.estimatedCost);  // Using formData.estimatedCost
-    formDataToSubmit.append('file', image);  // Using image as the file object
-    formDataToSubmit.append('admin', JSON.stringify({ adminId: 1 }));  // Assuming admin object with adminId 1
-    
+    formDataToSubmit.append("name", formData.name);
+    formDataToSubmit.append("description", formData.description);
+    formDataToSubmit.append("estimatedCost", formData.estimatedCost);
+    formDataToSubmit.append("file", image); // Add image file
+    formDataToSubmit.append("admin", JSON.stringify({ adminId: 1 })); // Add admin data
+  
     try {
-      const response = await axios.post('http://localhost:8080/api/recipe/postRecipe', formDataToSubmit, {
-        headers: {
-          'Content-Type': 'multipart/form-data',  // Important for file upload
-        },
-      });
-      console.log('Recipe added successfully', response.data);
+      if (isEditMode && currentRecipeId) {
+        // Update existing recipe
+        await axios.put(`http://localhost:8080/api/recipe/updateRecipe/${currentRecipeId}`, formDataToSubmit, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setRecipes((prev) =>
+          prev.map((recipe) =>
+            recipe.recipeId === currentRecipeId ? { ...recipe, ...formData } : recipe
+          )
+        );
+        alert("Recipe updated successfully!");
+      } else {
+        // Add new recipe
+        const response = await axios.post("http://localhost:8080/api/recipe/postRecipe", formDataToSubmit, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setRecipes([...recipes, response.data]);
+        alert("Recipe added successfully!");
+      }
+  
+      resetForm();
     } catch (error) {
-      console.error('Error submitting recipe:', error.response?.data || error.message);
+      console.error("Error submitting recipe:", error.response?.data || error.message);
+      alert("Failed to submit recipe. Please try again.");
     }
   };
 
@@ -116,6 +136,7 @@ const ManageRecipe = () => {
       description: recipe.description,
       estimatedCost: recipe.estimatedCost,
     });
+    setImage(null);
     setIsEditMode(true);
     setCurrentRecipeId(recipe.recipeId);
   };

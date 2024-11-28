@@ -133,19 +133,22 @@ const Dashboard = () => {
 
         {/* Recipe Popup */}
         {selectedRecipe && (
-          <div className="recipe-popup">
-            <h4>{selectedRecipe.name}</h4>
-            {selectedRecipe.imageUrl && (
-              <img
-                src={selectedRecipe.imageUrl}
-                alt={selectedRecipe.name}
-                className="popup-image"
-              />
-            )}
-            <p>{selectedRecipe.description}</p>
-            <button onClick={handleViewFullRecipe}>View Full Recipe</button>
-          </div>
-        )}
+            <div className="recipe-popup">
+              <button className="close-button" onClick={() => setSelectedRecipe(null)}>
+                &times;
+              </button>
+              <h4>{selectedRecipe.name}</h4>
+              {selectedRecipe.imageUrl && (
+                <img
+                  src={selectedRecipe.imageUrl}
+                  alt={selectedRecipe.name}
+                  className="popup-image"
+                />
+              )}
+              <p>{selectedRecipe.description}</p>
+              <button onClick={handleViewFullRecipe}>View Full Recipe</button>
+            </div>
+          )}
       </div>
     </div>
   );

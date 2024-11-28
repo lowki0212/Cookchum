@@ -25,7 +25,7 @@ const AdminSignUp = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/signUpAdmin', signUpData);
+      const response = await axios.post('http://localhost:8080/addUser', signUpData);
       if (response.data) {
         alert('Admin account created successfully!');
         navigate('/AdminLogin'); // Redirect to AdminLogin page after successful sign up

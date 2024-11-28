@@ -31,7 +31,7 @@ public class RecipeService {
 
     // Add a new recipe
     public RecipeEntity saveRecipe(RecipeEntity recipe) {
-        return recipeRepository.save(recipe);
+        return recipeRepository.save(recipe); // Save the recipe entity, including the image data
     }
 
     // Update an existing recipe
@@ -65,22 +65,14 @@ public class RecipeService {
     }
 
     public String uploadRecipeImage(int id, MultipartFile image) throws Exception {
-    RecipeEntity recipe = recipeRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
+        RecipeEntity recipe = recipeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
 
-    // Save the image locally (or to a cloud service)
-    String uploadDir = "images/";
-    String fileName = id + "_" + image.getOriginalFilename();
-    Path filePath = Paths.get(uploadDir + fileName);
-    Files.createDirectories(filePath.getParent());
-    Files.write(filePath, image.getBytes());
+        // Convert image to byte array and set it in the entity
+        recipe.setImageUrl(image.getBytes());
+        recipeRepository.save(recipe);
 
-    // Update recipe entity with image URL
-    String imageUrl = "/images/" + fileName; // Adjust the URL path as needed
-    recipe.setImageUrl(imageUrl);
-    recipeRepository.save(recipe);
-
-    return imageUrl;
-}
+        return "Image uploaded successfully.";
+    }
     
 }

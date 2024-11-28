@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,8 +31,9 @@ public class RecipeEntity {
     private String description;
     private float estimatedCost;
 
-    @Column(name = "image_url", nullable = true)
-    private String imageUrl;
+    @Lob
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    private byte[] image; // Store the image as a byte array
     
     @OneToMany(mappedBy = "recipe", orphanRemoval = true)
     @JsonBackReference("recipe-favRecipe")
@@ -50,14 +52,14 @@ public class RecipeEntity {
         super();
     }
 
-    public RecipeEntity(int recipeId, String name, String description, String imageUrl, float estimatedCost, List<IngredientEntity> ingredients) {
+    public RecipeEntity(int recipeId, String name, String description, byte[] image, float estimatedCost, List<IngredientEntity> ingredients) {
         super();
         this.recipeId = recipeId;
         this.name = name;
         this.description = description;
         this.estimatedCost = estimatedCost;
         this.ingredients = ingredients;
-        this.imageUrl = imageUrl;
+        this.image = image;
     }
 
     // Getters and setters
@@ -117,11 +119,11 @@ public class RecipeEntity {
         this.favRecipes = favRecipes;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public byte[] getImageUrl() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrl(byte[] image) {
+        this.image = image;
     }
 }

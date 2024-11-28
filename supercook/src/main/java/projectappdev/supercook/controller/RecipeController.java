@@ -5,8 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +50,7 @@ public class RecipeController {
             @RequestParam("estimatedCost") float estimatedCost,
             @RequestParam("file") MultipartFile file,
             @RequestParam("admin") String adminJson) {
-    
+
         // Parse the admin object from JSON
         AdminEntity admin;
         try {
@@ -54,27 +58,27 @@ public class RecipeController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid admin data: " + e.getMessage());
         }
-    
+
         try {
-            // Save the uploaded file and get the file path
-            String filePath = saveFile(file);  // Implement saveFile logic to store the file
-            
+            // Convert file to byte array
+            byte[] imageData = file.getBytes();
+
             // Create a new RecipeEntity object
             RecipeEntity recipe = new RecipeEntity();
             recipe.setName(name);
             recipe.setDescription(description);
             recipe.setEstimatedCost(estimatedCost);
-            recipe.setImageUrl(filePath);  // Set the image URL
-            
+            recipe.setImageUrl(imageData); // Set the binary image data
+
             // Associate the admin with the recipe
-            recipe.setAdmin(admin);  // Set the admin relationship for this recipe
-            
+            recipe.setAdmin(admin);
+
             // Save the recipe entity using the recipeService
-            recipeService.saveRecipe(recipe);  // Use the service to save the recipe
-    
+            recipeService.saveRecipe(recipe);
+
             return ResponseEntity.ok("Recipe added successfully!");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading image file: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding recipe: " + e.getMessage());
         }
@@ -101,31 +105,46 @@ public class RecipeController {
         }
 
     // Upload image
-    @PostMapping("/uploadImage")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Please select a valid image to upload.");
-        }
+        @PostMapping("/uploadImage")
+        public ResponseEntity<String> uploadImage(@RequestParam("id") int recipeId, @RequestParam("file") MultipartFile file) {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Please select a valid image to upload.");
+            }
 
-        try {
-            // Save the file to the server
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            String uploadDir = "uploaded_images/";
-            Path path = Paths.get(uploadDir + fileName);
-            Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
-
-            return ResponseEntity.ok(uploadDir + fileName); // Return the image path
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload the image.");
+            try {
+                String message = recipeService.uploadRecipeImage(recipeId, file);
+                return ResponseEntity.ok(message);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload the image: " + e.getMessage());
+            }
         }
-    }
 
     // Read operations
-    @GetMapping("/getAllRecipes")
-    public List<RecipeEntity> getAllRecipes() {
-        return recipeService.getAllRecipes();
-    }
+        @GetMapping("/getAllRecipes")
+        public List<Map<String, Object>> getAllRecipes() {
+            // Fetch all recipes from the service
+            List<RecipeEntity> recipes = recipeService.getAllRecipes();
+
+            // Transform each RecipeEntity into a Map with Base64 image
+            return recipes.stream().map(recipe -> {
+                Map<String, Object> recipeData = new HashMap<>();
+                recipeData.put("recipeId", recipe.getRecipeId());
+                recipeData.put("name", recipe.getName());
+                recipeData.put("description", recipe.getDescription());
+                recipeData.put("estimatedCost", recipe.getEstimatedCost());
+
+                // Convert image byte[] to Base64 string
+                if (recipe.getImageUrl() != null) {
+                    String base64Image = Base64.getEncoder().encodeToString(recipe.getImageUrl());
+                    recipeData.put("imageUrl", "data:image/jpeg;base64," + base64Image);
+                } else {
+                    recipeData.put("imageUrl", null); // Handle missing image
+                }
+
+                return recipeData;
+            }).collect(Collectors.toList());
+        }
+
 
     @GetMapping("/getRecipe/{id}")
     public ResponseEntity<RecipeEntity> getRecipeById(@PathVariable int id) {
@@ -136,8 +155,37 @@ public class RecipeController {
 
     // Update operation
     @PutMapping("/updateRecipe/{id}")
-    public RecipeEntity updateRecipe(@PathVariable("id") int id, @RequestBody RecipeEntity newRecipeDetails) {
-        return recipeService.updateRecipe(id, newRecipeDetails);
+    public ResponseEntity<String> updateRecipe(
+            @PathVariable("id") int id,
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("estimatedCost") float estimatedCost,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        try {
+            // Fetch the existing recipe from the database
+            RecipeEntity existingRecipe = recipeService.getRecipeById(id)
+                    .orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
+
+            // Update the fields
+            existingRecipe.setName(name);
+            existingRecipe.setDescription(description);
+            existingRecipe.setEstimatedCost(estimatedCost);
+
+            // Update the image if provided
+            if (file != null && !file.isEmpty()) {
+                existingRecipe.setImageUrl(file.getBytes());
+            }
+
+            // Save the updated recipe
+            recipeService.saveRecipe(existingRecipe);
+
+            return ResponseEntity.ok("Recipe updated successfully!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating recipe: " + e.getMessage());
+        }
     }
 
     // Delete operation

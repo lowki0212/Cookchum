@@ -24,7 +24,7 @@ const FullRecipe = () => {
       user: { userId: userId }, // Use the passed `userId`
       dateAdded: new Date().toISOString().split("T")[0], // Format date as "YYYY-MM-DD"
     };
-    console.log("Recipe:",favoriteRecipe);
+    console.log("Recipe:", favoriteRecipe);
     try {
       const response = await axios.post(
         "http://localhost:8080/api/favRecipes/postFavRecipe",
@@ -46,14 +46,25 @@ const FullRecipe = () => {
   return (
     <div className="full-recipe-container">
       <h1>{recipe.name}</h1>
+      {recipe.imageUrl && (
+        <img
+          src={recipe.imageUrl}
+          alt={recipe.name}
+          className="full-recipe-image"
+        />
+      )}
       <p>{recipe.description}</p>
-      <h4>Estimated Cost: ${recipe.estimatedCost.toFixed(2)}</h4>
+      <h4>Estimated Cost: ${recipe.estimatedCost?.toFixed(2) || "N/A"}</h4>
       <h3>Ingredients:</h3>
-      <ul>
-        {recipe.ingredients.map((ingredient) => (
-          <li key={ingredient.ingredientId}>{ingredient.name}</li>
-        ))}
-      </ul>
+      {Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 ? (
+        <ul>
+          {recipe.ingredients.map((ingredient) => (
+            <li key={ingredient.ingredientId}>{ingredient.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No ingredients available.</p>
+      )}
       <div className="button-group">
         <button type="button" className="back-button" onClick={handleBack}>
           Back
