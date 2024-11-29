@@ -1,118 +1,145 @@
 .registration-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(to right, #8e44ad, #4a5a97); /* Violet gradient */
-  }
-  
-  .registration-title {
-    margin-bottom: 20px; /* Spacing between title and form */
-    color: black; /* White text for better visibility */
-    font-size: 2.5rem; /* Larger font size */
-    font-weight: bold; /* Emphasized weight */
-    text-align: center; /* Center align the title */
-  }
-  
-  .registration-container {
-    background-color: white;
-    padding: 30px; /* Increased padding for larger input area */
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Increased width for larger inputs */
-  }
-  
-  .registration-form {
-    width: 100%; /* Full width of the container */
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  input {
-    width: calc(100% - 20px); /* Adjusting width to align with padding */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  }
-  
-  input:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .submit-button,
-  .clear-button {
-    width: 48%; /* Each button takes almost half of the available space */
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .submit-button {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .submit-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .clear-button {
-    background-color: #e7e7e7;
-    color: #333;
-  }
-  
-  .clear-button:hover {
-    background-color: #d4d4d4;
-  }
-  .popup-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    text-align: center;
-  }
-  
-  .popup-content p {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .popup-content button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .popup-content button:hover {
-    background-color: #45a049;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centers content vertically */
+  height: 100vh; /* Takes full viewport height */
+  background: linear-gradient(
+          rgba(20, 67, 27, 0.6), /* Greenish tint with opacity */
+          rgba(20, 67, 27, 0.6)
+      ),
+      url('https://png.pngtree.com/thumb_back/fw800/background/20240522/pngtree-a-vertical-shot-of-a-chef-serving-a-gourmet-dish-image_15680244.jpg');
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; /* Centers the background image */
+  backdrop-filter: blur(8px); /* Adds the blur effect */
+  -webkit-backdrop-filter: blur(8px); /* Safari compatibility */
+}
 
-  .back-button{
-    display: block;
-    margin: 0 auto;
-  }
+.registration-title {
+  margin-bottom: 20px; /* Spacing between title and form */
+  color: black; /* White text for better visibility */
+  font-size: 2.5rem; /* Larger font size */
+  font-weight: bold; /* Emphasized weight */
+  text-align: center; /* Center align the title */
+}
+
+.registration-container {
+  background-color: white;
+  padding: 30px; /* Increased padding for larger input area */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Increased width for larger inputs */
+}
+
+.registration-form {
+  width: 100%; /* Full width of the container */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: calc(100% - 20px); /* Adjusting width to align with padding */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-button,
+.clear-button {
+  width: 48%; /* Each button takes almost half of the available space */
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.clear-button {
+  background-color: #e7e7e7;
+  color: #333;
+}
+
+.clear-button:hover {
+  background-color: #d4d4d4;
+}
+.popup-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+}
+
+.popup-content p {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.popup-content button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #45a049;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: #28a745; /* A vibrant green color */
+  color: white;
+  border: none;
+  border-radius: 5px; /* Rounded edges for a modern look */
+  font-size: 16px; /* Slightly larger text for better readability */
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px; /* Add space around the button */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+  width: 94%;
+}
+
+.back-button:hover {
+  background-color: #218838; /* Slightly darker green on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover for a popping effect */
+}
+
+.back-button:focus {
+  outline: none; /* Remove the default focus outline */
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5); /* Add a green focus ring */
+}

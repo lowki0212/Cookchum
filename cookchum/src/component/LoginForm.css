@@ -2,11 +2,31 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    justify-content: center; /* Centers content vertically */
+    height: 100vh; /* Takes full viewport height */
+    background: linear-gradient(
+            rgba(20, 67, 27, 0.6), /* Greenish tint with opacity */
+            rgba(20, 67, 27, 0.6)
+        ),
+        url('https://png.pngtree.com/thumb_back/fw800/background/20240522/pngtree-a-vertical-shot-of-a-chef-serving-a-gourmet-dish-image_15680244.jpg');
+    background-size: cover; /* Ensures the image covers the entire area */
+    background-position: center; /* Centers the background image */
+    backdrop-filter: blur(8px); /* Adds the blur effect */
+    -webkit-backdrop-filter: blur(8px); /* Safari compatibility */
+}
+
+h2{
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 20px; /* Spacing between title and form */
+    color: black; /* White text for better visibility */
+    font-size: 2.5rem; /* Larger font size */
+    font-weight: bold; /* Emphasized weight */
+    text-align: center; /* Center align the title */
 }
 
 .login-form {
-    width: 300px;
+    width: 400px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;

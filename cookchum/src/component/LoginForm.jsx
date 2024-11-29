@@ -48,9 +48,9 @@ const LoginForm = () => {
 
     return (
         <div className="login-wrapper">
-            <h2>Login</h2>
             <form onSubmit={handleSubmit} className="login-form">
                 <div className="form-group">
+                <h2>Login Form</h2>
                     <label htmlFor="email">Email:</label>
                     <input
                         type="email"

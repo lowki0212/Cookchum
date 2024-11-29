@@ -69,6 +69,14 @@ const Dashboard = () => {
     <div className="dashboard-container">
       {/* Sidebar */}
       <div className="sidebar">
+        <div className="auth-button-top">
+          <button onClick={handleAuthButtonClick}>
+            {loggedIn ? "Logout" : "Sign In"}
+          </button>
+        </div>
+        <div className="logo-container">
+          <img src="image0.png" alt="Logo" className="logo" />
+        </div>
         <div className="search-bar">
           <input type="text" placeholder="Search ingredients..." />
         </div>
@@ -97,11 +105,6 @@ const Dashboard = () => {
             <li>Download the App</li>
           </ul>
         </nav>
-        <div className="auth-button">
-          <button onClick={handleAuthButtonClick}>
-            {loggedIn ? "Logout" : "Sign In"}
-          </button>
-        </div>
       </div>
 
       {/* Main Content */}
@@ -133,22 +136,19 @@ const Dashboard = () => {
 
         {/* Recipe Popup */}
         {selectedRecipe && (
-            <div className="recipe-popup">
-              <button className="close-button" onClick={() => setSelectedRecipe(null)}>
-                &times;
-              </button>
-              <h4>{selectedRecipe.name}</h4>
-              {selectedRecipe.imageUrl && (
-                <img
-                  src={selectedRecipe.imageUrl}
-                  alt={selectedRecipe.name}
-                  className="popup-image"
-                />
-              )}
-              <p>{selectedRecipe.description}</p>
-              <button onClick={handleViewFullRecipe}>View Full Recipe</button>
-            </div>
-          )}
+          <div className="recipe-popup">
+            <h4>{selectedRecipe.name}</h4>
+            {selectedRecipe.imageUrl && (
+              <img
+                src={selectedRecipe.imageUrl}
+                alt={selectedRecipe.name}
+                className="popup-image"
+              />
+            )}
+            <p>{selectedRecipe.description}</p>
+            <button onClick={handleViewFullRecipe}>View Full Recipe</button>
+          </div>
+        )}
       </div>
     </div>
   );
