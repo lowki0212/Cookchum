@@ -120,30 +120,42 @@ public class RecipeController {
         }
 
     // Read operations
-        @GetMapping("/getAllRecipes")
-        public List<Map<String, Object>> getAllRecipes() {
-            // Fetch all recipes from the service
-            List<RecipeEntity> recipes = recipeService.getAllRecipes();
-
-            // Transform each RecipeEntity into a Map with Base64 image
-            return recipes.stream().map(recipe -> {
-                Map<String, Object> recipeData = new HashMap<>();
-                recipeData.put("recipeId", recipe.getRecipeId());
-                recipeData.put("name", recipe.getName());
-                recipeData.put("description", recipe.getDescription());
-                recipeData.put("estimatedCost", recipe.getEstimatedCost());
-
-                // Convert image byte[] to Base64 string
-                if (recipe.getImageUrl() != null) {
-                    String base64Image = Base64.getEncoder().encodeToString(recipe.getImageUrl());
-                    recipeData.put("imageUrl", "data:image/jpeg;base64," + base64Image);
-                } else {
-                    recipeData.put("imageUrl", null); // Handle missing image
-                }
-
-                return recipeData;
+    @GetMapping("/getAllRecipes")
+    public List<Map<String, Object>> getAllRecipes() {
+        // Fetch all recipes from the service
+        List<RecipeEntity> recipes = recipeService.getAllRecipes();
+    
+        // Transform each RecipeEntity into a Map with Base64 image and ingredients
+        return recipes.stream().map(recipe -> {
+            Map<String, Object> recipeData = new HashMap<>();
+            recipeData.put("recipeId", recipe.getRecipeId());
+            recipeData.put("name", recipe.getName());
+            recipeData.put("description", recipe.getDescription());
+            recipeData.put("estimatedCost", recipe.getEstimatedCost());
+    
+            // Convert image byte[] to Base64 string
+            if (recipe.getImageUrl() != null) {
+                String base64Image = Base64.getEncoder().encodeToString(recipe.getImageUrl());
+                recipeData.put("imageUrl", "data:image/jpeg;base64," + base64Image);
+            } else {
+                recipeData.put("imageUrl", null); // Handle missing image
+            }
+    
+            // Include the ingredient IDs in the response
+            List<Map<String, Object>> ingredients = recipe.getIngredients().stream().map(ingredient -> {
+                Map<String, Object> ingredientData = new HashMap<>();
+                ingredientData.put("ingredientId", ingredient.getIngredientId());
+                ingredientData.put("name", ingredient.getName());
+                // You can add more ingredient details if needed
+                return ingredientData;
             }).collect(Collectors.toList());
-        }
+    
+            recipeData.put("ingredients", ingredients);
+    
+            return recipeData;
+        }).collect(Collectors.toList());
+    }
+    
 
 
     @GetMapping("/getRecipe/{id}")

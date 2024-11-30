@@ -63,6 +63,13 @@ const RegistrationForm = () => {
     return (
     <div className="registration-wrapper">
       <div className="registration-container">
+      <div className="logo-container">
+                    <img
+                        src="image0.png" /* Replace this with the actual logo URL */
+                        alt="Logo"
+                        className="logo-image"
+                    />
+                </div>
         <h2 className="registration-title">Register Form</h2>
         <form onSubmit={handleSubmit} className="registration-form">
           <div className="form-group">

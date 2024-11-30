@@ -58,37 +58,6 @@ input:focus {
   outline: none;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-}
-
-.submit-button,
-.clear-button {
-  width: 48%; /* Each button takes almost half of the available space */
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.submit-button {
-  background-color: #007bff;
-  color: white;
-}
-
-.submit-button:hover {
-  background-color: #0056b3;
-}
-
-.clear-button {
-  background-color: #e7e7e7;
-  color: #333;
-}
-
-.clear-button:hover {
-  background-color: #d4d4d4;
-}
 .popup-message {
   position: fixed;
   top: 50%;
@@ -120,26 +89,20 @@ input:focus {
   background-color: #45a049;
 }
 
-.back-button {
-  padding: 10px 20px;
-  background-color: #28a745; /* A vibrant green color */
-  color: white;
-  border: none;
-  border-radius: 5px; /* Rounded edges for a modern look */
-  font-size: 16px; /* Slightly larger text for better readability */
-  font-weight: bold;
-  cursor: pointer;
-  margin: 10px; /* Add space around the button */
-  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth hover effect */
-  width: 94%;
+.submit-button , 
+.clear-button,.back-button{
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    background-color: #28a745; /* Original background color */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
 }
 
-.back-button:hover {
-  background-color: #218838; /* Slightly darker green on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover for a popping effect */
-}
-
-.back-button:focus {
-  outline: none; /* Remove the default focus outline */
-  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5); /* Add a green focus ring */
+.submit-button:hover , 
+.clear-button:hover,.back-button:hover {
+    background-color: orange; /* Hover color */
 }

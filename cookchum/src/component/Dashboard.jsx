@@ -10,19 +10,27 @@ const Dashboard = () => {
   const { userId, username } = location.state || {};
   const [loggedIn, setLoggedIn] = useState(!!userId);
   const [recipes, setRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-  const [selectedRating, setSelectedRating] = useState(0);
-  const ingredientCategories = {
-    "Pantry Essentials": ["Butter", "Egg", "Garlic", "Milk", "Onion", "Sugar", "Olive Oil"],
-    "Vegetables & Greens": ["Garlic", "Onion", "Bell Pepper", "Carrot", "Scallion"],
-  };
+  const [ingredients, setIngredients] = useState([]); // To store unique ingredients
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/recipe/getAllRecipes")
       .then((response) => {
-        setRecipes(response.data);
+        const allRecipes = response.data;
+        setRecipes(allRecipes);
+        setFilteredRecipes(allRecipes);
+
+        // Extract unique ingredients from all recipes
+        const allIngredients = new Set();
+        allRecipes.forEach((recipe) => {
+          recipe.ingredients.forEach((ingredient) => {
+            allIngredients.add(ingredient.name); // Access ingredient name if it's an object
+          });
+        });
+        setIngredients(Array.from(allIngredients)); // Convert the Set to an Array
       })
       .catch((error) => console.error("Error fetching recipes:", error));
   }, []);
@@ -35,6 +43,18 @@ const Dashboard = () => {
       updatedIngredients = [...selectedIngredients, ingredient];
     }
     setSelectedIngredients(updatedIngredients);
+
+    // Filter recipes based on selected ingredients
+    if (updatedIngredients.length > 0) {
+      const filtered = recipes.filter((recipe) =>
+        updatedIngredients.every((ingredient) =>
+          recipe.ingredients.some((ingredientObj) => ingredientObj.name === ingredient) // Access ingredient name here too
+        )
+      );
+      setFilteredRecipes(filtered);
+    } else {
+      setFilteredRecipes(recipes); // Reset to all recipes when no ingredients are selected
+    }
   };
 
   const handleRecipeClick = (recipe) => {
@@ -47,10 +67,6 @@ const Dashboard = () => {
     } else {
       navigate("/full-recipe", { state: { recipe: selectedRecipe, userId } });
     }
-  };
-
-  const handleRatingChange = (event) => {
-    setSelectedRating(Number(event.target.value)); // Update selected rating
   };
 
   const handleSavedRecipe = () => {
@@ -82,43 +98,41 @@ const Dashboard = () => {
         <div className="search-bar">
           <input type="text" placeholder="Search ingredients..." />
         </div>
-        <div className="ingredient-categories">
-          {Object.keys(ingredientCategories).map((category) => (
-            <div key={category} className="category">
-              <h4>{category}</h4>
-              <div className="ingredients-list">
-                {ingredientCategories[category].map((ingredient) => (
-                  <button
-                    key={ingredient}
-                    onClick={() => handleIngredientClick(ingredient)}
-                    className={`ingredient-button ${selectedIngredients.includes(ingredient) ? "selected" : ""}`}
-                  >
-                    {ingredient}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
+
+        {/* Ingredient List */}
+        <div className="ingredients-list">
+          {ingredients.length > 0 ? (
+            ingredients.map((ingredient) => (
+              <button
+                key={ingredient}
+                onClick={() => handleIngredientClick(ingredient)}
+                className={`ingredient-button ${selectedIngredients.includes(ingredient) ? "selected" : ""}`}
+              >
+                {ingredient}
+              </button>
+            ))
+          ) : (
+            <p>Loading ingredients...</p>
+          )}
         </div>
 
-          {/* Rating Section */}
-          <div className="rating-section">
-            <h4>Rating</h4>
-            <div>
-              {[5, 4, 3, 2, 1].map((rating) => (
-                <label key={rating} className="sidebar-rating">
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={rating}
-                    checked={selectedRating === rating}
-                    onChange={handleRatingChange}
-                  />
-                  {rating}★ & up
-                </label>
-              ))}
-            </div>
+        {/* Rating Section */}
+        <div className="rating-section">
+          <h4>Rating</h4>
+          <div>
+            {[5, 4, 3, 2, 1].map((rating) => (
+              <label key={rating} className="sidebar-rating">
+                <input
+                  type="radio"
+                  name="rating"
+                  value={rating}
+                  // Adjust rating filter logic if necessary
+                />
+                {rating}★ & up
+              </label>
+            ))}
           </div>
+        </div>
 
         <nav className="menu">
           <ul>
@@ -129,51 +143,50 @@ const Dashboard = () => {
         </nav>
       </div>
 
+      {/* Main Content */}
       <div className="main-content">
-  <h2>Discover Delicious Recipes</h2>
-  <div className="empty-container"></div>
-  <div className="recipe-grid">
-    {recipes.length > 0 ? (
-      recipes.map((recipe) => (
-       
-        <div
-          key={recipe.recipeId}
-          className="recipe-card"
-          onClick={() => handleRecipeClick(recipe)}
-        >
-          {recipe.imageUrl && (
-            <img
-              src={recipe.imageUrl}
-              alt={recipe.name}
-              className="recipe-image"
-            />
+        <h2>Discover Delicious Recipes</h2>
+        <div className="recipe-grid">
+          {filteredRecipes.length > 0 ? (
+            filteredRecipes.map((recipe) => (
+              <div
+                key={recipe.recipeId}
+                className="recipe-card"
+                onClick={() => handleRecipeClick(recipe)}
+              >
+                {recipe.imageUrl && (
+                  <img
+                    src={recipe.imageUrl}
+                    alt={recipe.name}
+                    className="recipe-image"
+                  />
+                )}
+                <div className="recipe-info">
+                  <h4>{recipe.name}</h4>
+                  <p>{recipe.description.substring(0, 50)}...</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No recipes found for the selected ingredients...</p>
           )}
-          <div className="recipe-info">
-            <h4>{recipe.name}</h4>
-            <p>{recipe.description.substring(0, 50)}...</p>
-          </div>
         </div>
-      ))
-    ) : (
-      <p>Loading recipes or no recipes available...</p>
-    )}
-  </div>
 
-  {selectedRecipe && (
-    <div className="recipe-popup">
-      <h4>{selectedRecipe.name}</h4>
-      {selectedRecipe.imageUrl && (
-        <img
-          src={selectedRecipe.imageUrl}
-          alt={selectedRecipe.name}
-          className="popup-image"
-        />
-      )}
-      <p>{selectedRecipe.description}</p>
-      <button onClick={handleViewFullRecipe}>View Full Recipe</button>
-    </div>
-  )}
-</div>
+        {selectedRecipe && (
+          <div className="recipe-popup">
+            <h4>{selectedRecipe.name}</h4>
+            {selectedRecipe.imageUrl && (
+              <img
+                src={selectedRecipe.imageUrl}
+                alt={selectedRecipe.name}
+                className="popup-image"
+              />
+            )}
+            <p>{selectedRecipe.description}</p>
+            <button onClick={handleViewFullRecipe}>View Full Recipe</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

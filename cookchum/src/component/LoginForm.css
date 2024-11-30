@@ -23,6 +23,7 @@ h2{
     font-size: 2.5rem; /* Larger font size */
     font-weight: bold; /* Emphasized weight */
     text-align: center; /* Center align the title */
+    margin-top: -50px;
 }
 
 .login-form {
@@ -64,14 +65,11 @@ input[type="text"] {
     margin-right: 2px;
 }
 
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+.button-row {
+    display: flex;
+    justify-content: space-between; /* Ensures equal spacing between buttons */
+    gap: 10px; /* Adds consistent spacing between buttons */
+    margin-top: 15px; /* Adds spacing above button rows */
 }
 
 .error-message,
@@ -85,13 +83,44 @@ input[type="text"] {
     color: #28a745;
 }
 
-.register-button {
-    margin-top: 5px;
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo-image {
+    width: 250px; /* Adjust size as needed */
+    height: auto;
+    border-radius: 5px; /* Optional: makes the logo look smooth */
+}
+
+.login-button,  
+.back-button {
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
+    background-color: #28a745; /* Original background color */
     color: white;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+ 
+.regis-button, 
+.admin-button{
+    width: 100%;
+    padding: 10px;
+    background-color: #88e29d; /* Original background color */
+    color: black;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.login-button:hover, 
+.regis-button:hover, 
+.admin-button:hover, 
+.back-button:hover {
+    background-color: orange; /* Hover color */
 }
