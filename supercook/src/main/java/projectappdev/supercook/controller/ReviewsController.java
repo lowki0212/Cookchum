@@ -3,6 +3,7 @@ package projectappdev.supercook.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import projectappdev.supercook.service.ReviewsService;
 
 @RestController
 @RequestMapping("/api/reviews")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ReviewsController {
 	@Autowired
 	ReviewsService rserv;
@@ -40,6 +42,7 @@ public class ReviewsController {
 	}
 	//Update of CRUD
 	@PutMapping("/putReview")
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ReviewsEntity putFavRecipeDetails(@RequestParam("id") int id,@RequestBody ReviewsEntity newReview){
 		return rserv.putReviewDetails(id, newReview);
 	}

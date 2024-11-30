@@ -1,0 +1,67 @@
+/* Container */
+.contact-container {
+    padding: 3rem;
+    background-color: #fafafa;
+    margin-top: 15rem;
+  }
+  
+  .contact-title {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .contact-form {
+    margin-top: 2rem;
+  }
+  
+  /* Button */
+  button {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  
+  /* Contact Info Section */
+  .contact-info {
+    margin-top: 3rem;
+    background-color: #f4f4f4;
+    padding: 3rem;
+    border-radius: 8px;
+  }
+  
+  .contact-info-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  
+  .contact-info-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  
+  .contact-info-item {
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .contact-icon {
+    font-size: 2.5rem;
+    color: #0B6434;
+    margin-bottom: 1rem;
+  }
+  
+  .contact-info-item h6 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .contact-info-item p {
+    color: #555;
+  }
+  
+  /* Snackbar */
+  .MuiSnackbar-root {
+    font-size: 1rem;
+  }

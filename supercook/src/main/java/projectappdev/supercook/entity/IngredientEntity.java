@@ -1,6 +1,7 @@
 package projectappdev.supercook.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -19,7 +20,7 @@ public class IngredientEntity {
     // Many-to-One with Recipe
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
-    @JsonBackReference("recipe-ingredient")  // To prevent recursion in JSON
+    @JsonBackReference // To prevent recursion in JSON
     private RecipeEntity recipe;
 
     // Default constructor
@@ -55,5 +56,9 @@ public class IngredientEntity {
 
     public void setRecipe(RecipeEntity recipe) {
         this.recipe = recipe;
+    }
+    @JsonProperty("recipeId")
+    public int getRecipeId() {
+        return recipe.getRecipeId();
     }
 }

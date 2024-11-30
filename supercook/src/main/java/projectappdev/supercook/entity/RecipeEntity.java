@@ -46,6 +46,7 @@ public class RecipeEntity {
 
     // One-to-Many with Ingredients
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<IngredientEntity> ingredients;
 
     public RecipeEntity() {

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,12 +30,12 @@ public class ReviewsEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference("user-reviews")  // To prevent recursion in JSON
+    @JsonIgnoreProperties({"password", "email", "favoriteRecipes", "reviews"})  // To prevent recursion in JSON
     private UserEntity user;
     
     @ManyToOne
     @JoinColumn(name = "recipe_id",nullable = false)
-    @JsonBackReference("recipe-reviews")
+    @JsonIgnoreProperties({"admin", "ingredients", "favRecipes", "reviews"})
     private RecipeEntity recipe;
     		
     public ReviewsEntity() {

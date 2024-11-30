@@ -9,7 +9,8 @@
   font-family: 'Poppins', sans-serif;
   color: #333;
   transition: transform 0.3s ease;
-  margin-top: 10px;
+  margin-top: 100px;
+  
 }
 
 
@@ -77,27 +78,27 @@
   padding-right: 20px;
   max-width: 500px;
 }
-
-.recipe-image {
-  flex: 1;
-  padding-left: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%; /* Set a fixed width */
-  height: 400px; /* Fixed height for the container */
-  z-index: 10;
-  overflow: hidden;
-}
-
 .full-recipe-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100%; /* Ensure it fills the parent container width */
+  height: 100%; /* Scale to fill the container height */
+  object-fit: cover; /* Scale and crop the image to fill the container */
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
+.recipe-image {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Adjust width for responsiveness */
+  max-width: 400px; /* Maximum width */
+  height: 300px; /* Fixed height */
+  overflow: hidden;
+  margin: 0 auto; /* Center horizontally in non-flexbox parents */
+}
+
 
 .full-recipe-image:hover {
   transform: scale(1.05);
@@ -209,18 +210,73 @@
   .recipe-name {
     font-size: 2.5rem;
   }
-
-  .estimated-cost {
-    font-size: 1.3rem;
-  }
-
   .recipe-info {
     padding-right: 0;
     padding-left: 20px;
-  }
+  } 
 
   .recipe-image {
     width: 100%;
     padding-left: 0;
   }
 }
+
+  .review-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+  }
+  
+  .review-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .review-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .review-username {
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .review-date {
+    font-size: 0.8em;
+    color: gray;
+  }
+  
+  .review-content {
+    margin-top: 10px;
+  }
+  
+  .review-rating .star {
+    color: gold;
+    font-size: 1.2em;
+  }
+  
+  .review-text {
+    margin-top: 10px;
+  }
+  .star {
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .star.gold {
+    color: gold;
+  }
+  
+  .star.gray {
+    color: gray;
+  }

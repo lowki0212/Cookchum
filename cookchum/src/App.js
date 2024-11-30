@@ -11,6 +11,9 @@ import AddIngredients from './component/AddIngredients';
 import AdminSignUp from './component/AdminSignUp';
 import RecipeDetails from './component/RecipeDetails';
 import Header from './component/Header';
+import AboutUs from './component/AboutUs';  
+import ContactUs from './component/ContactUs';
+import FAQs from './component/FAQs';
 
 function App() {
     return (
@@ -19,17 +22,20 @@ function App() {
                 <ConditionalHeader />
                 <div>
                     <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/login" element={<LoginForm />} />
-                        <Route path="/register" element={<RegistrationForm />} />
-                        <Route path="/FavoriteRecipes" element={<FavoriteRecipesTab />} />
-                        <Route path="/full-recipe" element={<FullRecipe />} />
-                        <Route path="/AdminSignUp" element={<AdminSignUp />} />
-                        <Route path="/AddIngredients" element={<AddIngredients />} />
-                        <Route path="/AdminLogin" element={<AdminLogin />} />
-                        <Route path="/ManageRecipe" element={<ManageRecipe />} />
-                        <Route path="/recipeDetails/:recipeId" element={<RecipeDetails />} />
-                    </Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/login" element={<LoginForm />} />
+                    <Route path="/register" element={<RegistrationForm />} />
+                    <Route path="/FavoriteRecipes" element={<FavoriteRecipesTab />} />
+                    <Route path="/full-recipe" element={<FullRecipe />} />
+                    <Route path="/AdminSignUp" element={<AdminSignUp />} />
+                    <Route path="/AddIngredients" element={<AddIngredients />} />
+                    <Route path="/AdminLogin" element={<AdminLogin />} />
+                    <Route path="/ManageRecipe" element={<ManageRecipe />} />
+                    <Route path="/recipeDetails/:recipeId" element={<RecipeDetails />} />
+                    <Route path="/AboutUs" element={<AboutUs />} />
+                    <Route path="/FAQs" element={<FAQs />} />
+                    <Route path="/ContactUs" element={<ContactUs />} />
+                                    </Routes>
                 </div>
             </div>
         </Router>
@@ -38,12 +44,13 @@ function App() {
 
 function ConditionalHeader() {
     const location = useLocation();
-    const noHeaderPaths = ['/login', '/register', '/AdminLogin', '/AdminSignUp'];
+    const noHeaderPaths = ['/login', '/register', '/AdminLogin', '/AdminSignUp','/AboutUs'];
 
     // Check if the current path is in the noHeaderPaths array
     const showHeader = !noHeaderPaths.includes(location.pathname);
 
     return showHeader ? <Header /> : null;
 }
+
 
 export default App;

@@ -1,0 +1,213 @@
+/* Background section with overlay */
+.about-bg {
+    background-size: cover;
+    padding: 5rem 0;
+    
+  }
+  
+  /* Container styling */
+  .about-container {
+    margin-top: 8rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    z-index: 1;
+    width: 100%;
+  }
+  
+  /* Title styling */
+  .about-title {
+    font-weight: bold;
+    font-size: 3rem;
+    color: black;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin-bottom: 1rem;
+  }
+  
+  /* Image styling */
+  .about-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .about-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* About Card styling */
+  .about-content {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .about-card {
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    max-width: 80%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    line-height: 1.8;
+  }
+  
+  /* Mission Section */
+  .about-mission {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  .mission-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .mission-item {
+    text-align: center;
+  }
+  
+  .mission-icon {
+    font-size: 3rem;
+    color: #0B6434;
+    margin-top: 5rem;
+  }
+  
+  .mission-text {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  
+  .mission-description {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Team Section */
+  .about-team {
+    margin-top: 3rem;
+  }
+  
+  .team-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .team-member {
+    text-align: center;
+    
+  }
+  
+  .team-member-img {
+    width: 50%;
+    border-radius: 50%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+  }
+  
+  .team-role {
+    color: #555;
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+  
+  /* Button styling */
+  .learn-more-btn {
+    background-color: #0B6434;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .learn-more-btn:hover {
+    background-color: #fff;
+    color: #0B6434;
+    border: 2px solid #0B6434;
+  }
+  
+  /* Responsive breakpoints */
+  @media (max-width: 768px) {
+    .about-title {
+      font-size: 2rem;
+    }
+  
+    .about-card {
+      max-width: 90%;
+    }
+  
+    .about-text {
+      font-size: 1rem;
+    }
+  
+    .mission-item {
+      margin-bottom: 1rem;
+     
+    }
+  
+    .team-member {
+      margin-bottom: 2rem;
+    }
+  }
+  
+  /* Testimonials Section */
+.about-testimonials {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  .testimonials-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .testimonial-card {
+    padding: 2rem;
+    background-color: #f7f7f7;
+    text-align: center;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-top: 5rem;
+  }
+  
+  .quote-icon {
+    font-size: 2.5rem;
+    color: #0B6434;
+  }
+  
+  .testimonial-text {
+    font-style: italic;
+    margin: 1rem 0;
+  }
+  
+  .testimonial-name {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Improved hover effect on team images */
+  .team-member-img {
+    width: 50%;
+    border-radius: 50%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .team-member-img:hover {
+    transform: scale(1.1);
+  }
