@@ -72,18 +72,12 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-       <div className="header">
-        <h1></h1>
-        <button className="header-btn" onClick={handleAuthButtonClick}>
-          {loggedIn ? "Logout" : "Sign In"}
-        </button>
-      </div>
       {/* Sidebar */}
       <div className="sidebar">
-        <div className="auth-button-top">
-        </div>
-        <div className="logo-container">
-          <img src="image0.png" alt="Logo" className="logo" />
+      <div className="auth-button-top">
+          <button onClick={handleAuthButtonClick}>
+            {loggedIn ? "Logout" : "Sign In"}
+          </button>
         </div>
         <div className="search-bar">
           <input type="text" placeholder="Search ingredients..." />

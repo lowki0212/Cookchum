@@ -10,33 +10,27 @@ body {
 
 .sidebar {
     width: 300px;
-   background-color: #D9D9D9;
+    background: linear-gradient(
+        rgba(0, 3, 0, 0.6), 
+        rgba(20, 67, 27, 0.6)
+      ),
+      url('https://png.pngtree.com/thumb_back/fw800/background/20240522/pngtree-a-vertical-shot-of-a-chef-serving-a-gourmet-dish-image_15680244.jpg');
     background-size: cover;
     background-position: center;
-    color: black;
+    color: white;
     padding: 20px;
     display: flex;
+    overflow: scroll;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(8px); /* Adds the blur effect */
     -webkit-backdrop-filter: blur(8px); /* Safari compatibility */
     border-right: 1px solid rgba(255, 255, 255, 0.2); /* Optional decorative border */
-    overflow: scroll;
     z-index: 10;
   }
   
 
-.logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
 
-.logo {
-    max-width: 100%;
-    height: 150px; /* Adjust this value as needed */
-    object-fit: contain; /* Ensures the aspect ratio is maintained */
-
-}
 
 .search-bar input {
     width: 100%;
@@ -98,7 +92,7 @@ body {
 
 .main-content {
     flex: 1;
-    margin-top: 250px;
+    margin-top: 190px;
     padding: 30px;
     background-color: #f9f9f9;
     text-align: center;
@@ -187,24 +181,23 @@ body {
   }
   
 
-.recipe-card {
-    display: flex;
+  .recipe-card {
+    display:flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start; /* Keeps the content aligned from the top */
+    align-items: center; /* Center the content horizontally */
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 10px; /* Reduce padding to make the card smaller */
-    margin: 10px; /* Adjust spacing around the card */
-    width: 200px; /* Set a fixed width for smaller cards */
-    height: auto; /* Adjust height to content */
+    padding: 10px;
+    margin: 10px;
+    width: 200px; /* Fixed width */
+    height: 300px; /* Fixed height */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 40px; /* Reduce or remove large margin */
+    margin-top: 40px;
+    text-align: center; /* Ensure text inside the card is centered */
 }
-
-
   .recipe-card:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
@@ -221,7 +214,13 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 100;
-  }
+    width: 400px; /* Fixed width for consistency */
+    height: 600px; /* Increased fixed height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Prevents content from spilling out */
+}
 
   .recipe-popup button {
     margin-top: 10px;
@@ -236,48 +235,24 @@ body {
     background-color: #218838;
   }
 
-.recipe-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+  .recipe-image {
+    width: 150%; /* Increased width to make it wider */
+    height: 180px; /* Fixed height */
+    object-fit: cover; /* Keeps the image aspect ratio while covering the area */
+    margin-bottom: 5px; /* Reduced margin-bottom to bring it closer to the container */
+    margin-left: -10%; /* Optional: Adjusts the position to make the image closer to the container's edges */
+}
+
+
+ 
+.recipe-popup img {
+    width: 100%;  /* Ensure full width */
+    height: 70%;  /* Set height to fill the popup container */
+    object-fit: cover; /* Ensures the image covers the area without stretching */
     border-radius: 8px;
-    margin-bottom: 10px;
-  }
-
-.popup-image {
-    width: 100%;
-    height: auto;
-    margin: 10px 0;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #0B6434 url('https://i.ibb.co/dBY1Rns/4f96fe88d320.png') no-repeat center center;
-background-size: contain;
-    padding: 120px 50px;
-    width: 95%;
-    margin-left: -10px;
-    position: fixed;
-    z-index: 10;
-}
 
-.header h1 {
-    font-size: 1.8rem;
-    color: white;
-    margin-left: 100px;
-}
-
-.header-btn {
-    background-color: white;
-    color: #28a745;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
 .rating-section {
     font-size: 16px;

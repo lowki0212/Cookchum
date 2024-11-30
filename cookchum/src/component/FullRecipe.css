@@ -1,19 +1,226 @@
+/* General container styling */
+.full-recipe-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  transition: transform 0.3s ease;
+  margin-top: 10px;
+}
+
+
+
+.invisible {
+  visibility: hidden;
+}
+
+
+
+.full-recipe-container:hover {
+  transform: scale(1.02);
+}
+
+/* Header section */
+.recipe-header {
+  position: sticky;
+  top: 0;
+  z-index: 20; /* Ensure header stays above other content */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.recipe-name {
+  font-size: 3rem;
+  color: #3e3e3e;
+  margin-bottom: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.rating {
+  font-size: 1.2rem;
+  color: #ff6f61;
+}
+
+.author {
+  font-size: 1.1rem;
+  color: #28a745;
+  margin-top: 10px;
+}
+
+.estimated-cost {
+  font-size: 1.5rem;
+  color: #ff6f61;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+/* Recipe content layout */
+.recipe-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.recipe-info {
+  flex: 1;
+  padding-right: 20px;
+  max-width: 500px;
+}
+
+.recipe-image {
+  flex: 1;
+  padding-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%; /* Set a fixed width */
+  height: 400px; /* Fixed height for the container */
+  z-index: 10;
+  overflow: hidden;
+}
+
+.full-recipe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.full-recipe-image:hover {
+  transform: scale(1.05);
+}
+
+.recipe-description {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+  color: #4d4d4d;
+}
+
+.ingredients-section {
+  margin-top: 30px;
+}
+
+.ingredients-list {
+  list-style: disc;
+  margin: 10px 0;
+  padding-left: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #5a5a5a;
+}
+
+.ingredients-form {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.ingredients-form input {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-right: 10px;
+  flex-grow: 1;
+  transition: border-color 0.3s;
+}
+
+.ingredients-form input:focus {
+  border-color: #ff6f61;
+  outline: none;
+}
+
+.ingredients-form button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #ff6f61;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.ingredients-form button:hover {
+  background-color: #e55a50;
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.back-button,
 .add-favorite-button {
-    background-color: #ffcccb;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+}
+
+.back-button {
+  background-color: #cccccc;
+  color: #333;
+}
+
+.back-button:hover {
+  background-color: #b3b3b3;
+  transform: scale(1.05);
+}
+
+.add-favorite-button {
+  background-color: #ff6f61;
+  color: #fff;
+}
+
+.add-favorite-button:hover {
+  background-color: #e55a50;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .recipe-content {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .add-favorite-button:hover {
-    background-color: #ff9999;
+
+  .recipe-name {
+    font-size: 2.5rem;
   }
-  .full-recipe-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 20px;
-  }  
+
+  .estimated-cost {
+    font-size: 1.3rem;
+  }
+
+  .recipe-info {
+    padding-right: 0;
+    padding-left: 20px;
+  }
+
+  .recipe-image {
+    width: 100%;
+    padding-left: 0;
+  }
+}
