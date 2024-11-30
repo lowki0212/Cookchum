@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [selectedRating, setSelectedRating] = useState(0);
   const ingredientCategories = {
     "Pantry Essentials": ["Butter", "Egg", "Garlic", "Milk", "Onion", "Sugar", "Olive Oil"],
     "Vegetables & Greens": ["Garlic", "Onion", "Bell Pepper", "Carrot", "Scallion"],
@@ -48,6 +49,10 @@ const Dashboard = () => {
     }
   };
 
+  const handleRatingChange = (event) => {
+    setSelectedRating(Number(event.target.value)); // Update selected rating
+  };
+
   const handleSavedRecipe = () => {
     if (!loggedIn) {
       navigate("/login");
@@ -67,12 +72,15 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+       <div className="header">
+        <h1></h1>
+        <button className="header-btn" onClick={handleAuthButtonClick}>
+          {loggedIn ? "Logout" : "Sign In"}
+        </button>
+      </div>
       {/* Sidebar */}
       <div className="sidebar">
         <div className="auth-button-top">
-          <button onClick={handleAuthButtonClick}>
-            {loggedIn ? "Logout" : "Sign In"}
-          </button>
         </div>
         <div className="logo-container">
           <img src="image0.png" alt="Logo" className="logo" />
@@ -98,6 +106,26 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
+
+          {/* Rating Section */}
+          <div className="rating-section">
+            <h4>Rating</h4>
+            <div>
+              {[5, 4, 3, 2, 1].map((rating) => (
+                <label key={rating} className="sidebar-rating">
+                  <input
+                    type="radio"
+                    name="rating"
+                    value={rating}
+                    checked={selectedRating === rating}
+                    onChange={handleRatingChange}
+                  />
+                  {rating}★ & up
+                </label>
+              ))}
+            </div>
+          </div>
+
         <nav className="menu">
           <ul>
             <li onClick={handleSavedRecipe}>Saved Recipes</li>
@@ -107,49 +135,51 @@ const Dashboard = () => {
         </nav>
       </div>
 
-      {/* Main Content */}
       <div className="main-content">
-        <h3>Available Recipes</h3>
-        <div className="recipe-cards">
-          {recipes.length > 0 ? (
-            recipes.map((recipe) => (
-              <div
-                key={recipe.recipeId}
-                className="recipe-card"
-                onClick={() => handleRecipeClick(recipe)}
-              >
-                {recipe.imageUrl && (
-                  <img
-                    src={recipe.imageUrl}
-                    alt={recipe.name}
-                    className="recipe-image"
-                  />
-                )}
-                <h4>{recipe.name}</h4>
-                <p>{recipe.description.substring(0, 50)}...</p>
-              </div>
-            ))
-          ) : (
-            <p>Loading recipes or no recipes available...</p>
+  <h2>Discover Delicious Recipes</h2>
+  <div className="empty-container"></div>
+  <div className="recipe-grid">
+    {recipes.length > 0 ? (
+      recipes.map((recipe) => (
+       
+        <div
+          key={recipe.recipeId}
+          className="recipe-card"
+          onClick={() => handleRecipeClick(recipe)}
+        >
+          {recipe.imageUrl && (
+            <img
+              src={recipe.imageUrl}
+              alt={recipe.name}
+              className="recipe-image"
+            />
           )}
-        </div>
-
-        {/* Recipe Popup */}
-        {selectedRecipe && (
-          <div className="recipe-popup">
-            <h4>{selectedRecipe.name}</h4>
-            {selectedRecipe.imageUrl && (
-              <img
-                src={selectedRecipe.imageUrl}
-                alt={selectedRecipe.name}
-                className="popup-image"
-              />
-            )}
-            <p>{selectedRecipe.description}</p>
-            <button onClick={handleViewFullRecipe}>View Full Recipe</button>
+          <div className="recipe-info">
+            <h4>{recipe.name}</h4>
+            <p>{recipe.description.substring(0, 50)}...</p>
           </div>
-        )}
-      </div>
+        </div>
+      ))
+    ) : (
+      <p>Loading recipes or no recipes available...</p>
+    )}
+  </div>
+
+  {selectedRecipe && (
+    <div className="recipe-popup">
+      <h4>{selectedRecipe.name}</h4>
+      {selectedRecipe.imageUrl && (
+        <img
+          src={selectedRecipe.imageUrl}
+          alt={selectedRecipe.name}
+          className="popup-image"
+        />
+      )}
+      <p>{selectedRecipe.description}</p>
+      <button onClick={handleViewFullRecipe}>View Full Recipe</button>
+    </div>
+  )}
+</div>
     </div>
   );
 };
