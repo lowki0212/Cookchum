@@ -12,7 +12,6 @@ function Header() {
   return (
     <header className="header">
       <div className="logo">
-        <h1>CookChum</h1>
       </div>
       <nav className="header-buttons">
         <button onClick={() => handleButtonClick('/')} aria-label="Dashboard">Dashboard</button>

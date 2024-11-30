@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Card, CardContent, Button, Grid } from '@mui/material';
 import { FaLeaf, FaUtensils, FaHandHoldingHeart, FaQuoteLeft } from 'react-icons/fa';
 import Header from './Header';
 import './AboutUs.css';
 
 const AboutUs = () => {
+  const [isVisible, setIsVisible] = useState(false); // State for visibility
+
+  useEffect(() => {
+    // Simulate loading or delay before showing the component
+    const timer = setTimeout(() => {
+      setIsVisible(true); // Set visible after 0.5 seconds
+    }, 500);
+
+    return () => clearTimeout(timer); // Cleanup timer on unmount
+  }, []);
+
   return (
     <>
       <Header />
       <div className="about-bg">
-        <Container maxWidth="lg" className="about-container">
+        <Container maxWidth="lg" className={`about-container ${isVisible ? 'fade-in' : ''}`}>
           <Typography variant="h3" align="center" gutterBottom className="about-title">
             About Us
           </Typography>
@@ -50,6 +61,15 @@ const AboutUs = () => {
             </Card>
           </Box>
 
+          <Box className="about-vision">
+            <Typography variant="h4" align="center" className="vision-title">
+              Our Vision
+            </Typography>
+            <Typography align="center" className="vision-text">
+              To inspire a global community where everyone can cook confidently, reduce food waste, and embrace sustainable living.
+            </Typography>
+          </Box>
+
           {/* Mission Section with Icons */}
           <Box className="about-mission">
             <Typography variant="h4" align="center" className="mission-title">
@@ -78,7 +98,7 @@ const AboutUs = () => {
                 <FaHandHoldingHeart className="mission-icon" />
                 <Typography variant="h6" align="center" className="mission-text">
                   Community
-                </Typography>
+                </ Typography>
                 <Typography align="center" className="mission-description">
                   CookChum is a community-driven platform that helps individuals share their love for food while making cooking easier and fun!
                 </Typography>
@@ -151,7 +171,7 @@ const AboutUs = () => {
                   alt="Team Member"
                   className="team-member-img"
                 />
-                 <Typography variant="h6" align="center">Andre Iguodala</Typography>
+                <Typography variant="h6" align="center">Andre Iguodala</Typography>
                 <Typography align="center" className="team-role">Head Chef</Typography>
               </Grid>
               <Grid item xs={12} sm={3} className="team-member">
@@ -160,7 +180,7 @@ const AboutUs = () => {
                   alt="Team Member"
                   className="team-member-img"
                 />
-                 <Typography variant="h6" align="center">Mtabs</Typography>
+                <Typography variant="h6" align="center">Mtabs</Typography>
                 <Typography align="center" className="team-role">Co-founder & CEO</Typography>
               </Grid>
               <Grid item xs={12} sm={3} className="team-member">
@@ -178,7 +198,7 @@ const AboutUs = () => {
                   alt="Team Member"
                   className="team-member-img"
                 />
-                <Typography variant="h6" align="center">Pol</Typography>
+                <Typography variant="h6" align="center"> Pol</Typography>
                 <Typography align="center" className="team-role">Head Chef</Typography>
               </Grid>
             </Grid>

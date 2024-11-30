@@ -15,6 +15,12 @@
     color: #333;
     z-index: 1;
     width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .about-container.fade-in {
+    opacity: 1;
   }
   
   /* Title styling */
@@ -63,6 +69,17 @@
   .about-mission {
     margin-top: 3rem;
     margin-bottom: 3rem;
+  }
+
+  .about-vision {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .vision-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
   }
   
   .mission-title {
