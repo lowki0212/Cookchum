@@ -13,7 +13,8 @@ const Dashboard = () => {
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-  const [ingredients, setIngredients] = useState([]); // To store unique ingredients
+  const [ingredients, setIngredients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // New state to hold the search term
 
   useEffect(() => {
     axios
@@ -27,13 +28,25 @@ const Dashboard = () => {
         const allIngredients = new Set();
         allRecipes.forEach((recipe) => {
           recipe.ingredients.forEach((ingredient) => {
-            allIngredients.add(ingredient.name); // Access ingredient name if it's an object
+            allIngredients.add(ingredient.name);
           });
         });
-        setIngredients(Array.from(allIngredients)); // Convert the Set to an Array
+        setIngredients(Array.from(allIngredients));
       })
       .catch((error) => console.error("Error fetching recipes:", error));
   }, []);
+
+  // Handle the search bar input
+  const handleSearchChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchTerm(value);
+
+    // Filter recipes based on search term
+    const filtered = recipes.filter((recipe) =>
+      recipe.name.toLowerCase().includes(value) // Check if the recipe name includes the search term
+    );
+    setFilteredRecipes(filtered);
+  };
 
   const handleIngredientClick = (ingredient) => {
     let updatedIngredients;
@@ -48,12 +61,12 @@ const Dashboard = () => {
     if (updatedIngredients.length > 0) {
       const filtered = recipes.filter((recipe) =>
         updatedIngredients.every((ingredient) =>
-          recipe.ingredients.some((ingredientObj) => ingredientObj.name === ingredient) // Access ingredient name here too
+          recipe.ingredients.some((ingredientObj) => ingredientObj.name === ingredient)
         )
       );
       setFilteredRecipes(filtered);
     } else {
-      setFilteredRecipes(recipes); // Reset to all recipes when no ingredients are selected
+      setFilteredRecipes(recipes);
     }
   };
 
@@ -90,13 +103,18 @@ const Dashboard = () => {
     <div className="dashboard-container">
       {/* Sidebar */}
       <div className="sidebar animated-slide-in-left">
-      <div className="auth-button-top">
+        <div className="auth-button-top">
           <button onClick={handleAuthButtonClick}>
             {loggedIn ? "Logout" : "Sign In"}
           </button>
         </div>
         <div className="search-bar">
-          <input type="text" placeholder="Search ingredients..." />
+          <input
+            type="text"
+            placeholder="Search recipes..."
+            value={searchTerm}
+            onChange={handleSearchChange} // Link the search input to state
+          />
         </div>
 
         {/* Ingredient List */}
@@ -114,24 +132,6 @@ const Dashboard = () => {
           ) : (
             <p>Loading ingredients...</p>
           )}
-        </div>
-
-        {/* Rating Section */}
-        <div className="rating-section">
-          <h4>Rating</h4>
-          <div>
-            {[5, 4, 3, 2, 1].map((rating) => (
-              <label key={rating} className="sidebar-rating">
-                <input
-                  type="radio"
-                  name="rating"
-                  value={rating}
-                  // Adjust rating filter logic if necessary
-                />
-                {rating}★ & up
-              </label>
-            ))}
-          </div>
         </div>
 
         <nav className="menu">
