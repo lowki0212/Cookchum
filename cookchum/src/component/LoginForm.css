@@ -1,19 +1,32 @@
+@keyframes smoothFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95); /* Slightly smaller */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1); /* Normal size */
+    }
+}
+
 .login-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Centers content vertically */
-    height: 100vh; /* Takes full viewport height */
+    justify-content: center;
+    height: 100vh;
     background: linear-gradient(
-            rgba(20, 67, 27, 0.6), /* Greenish tint with opacity */
+            rgba(20, 67, 27, 0.6),
             rgba(20, 67, 27, 0.6)
         ),
         url('https://png.pngtree.com/thumb_back/fw800/background/20240522/pngtree-a-vertical-shot-of-a-chef-serving-a-gourmet-dish-image_15680244.jpg');
-    background-size: cover; /* Ensures the image covers the entire area */
-    background-position: center; /* Centers the background image */
-    backdrop-filter: blur(8px); /* Adds the blur effect */
-    -webkit-backdrop-filter: blur(8px); /* Safari compatibility */
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: smoothFadeIn 1.0s ease-in-out; /* Longer, smoother animation */
 }
+
 
 h2{
     text-align: center;

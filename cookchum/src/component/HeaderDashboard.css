@@ -48,3 +48,18 @@
 .header-buttons button:focus {
   outline: 2px solid #ff9500; /* Outline for accessibility */
 }
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%); /* Start off-screen to the right */
+    opacity: 0; /* Start transparent */
+  }
+  100% {
+    transform: translateX(0); /* End at the original position */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+.animated-slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards; /* Use forwards to maintain the final state */
+}

@@ -35,8 +35,8 @@ const ManageRecipe = () => {
 
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredRecipes = recipes.filter(
+    (recipe) => recipe.name && typeof recipe.name === "string" && recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const handleSubmit = async (e) => {
     e.preventDefault();

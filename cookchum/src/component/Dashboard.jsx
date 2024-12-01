@@ -89,7 +89,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <div className="sidebar">
+      <div className="sidebar animated-slide-in-left">
       <div className="auth-button-top">
           <button onClick={handleAuthButtonClick}>
             {loggedIn ? "Logout" : "Sign In"}
@@ -144,9 +144,9 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="main-content">
+      <div className="main-content animated-fade-in">
         <h2>Discover Delicious Recipes</h2>
-        <div className="recipe-grid">
+        <div className="recipe-grid animated-slide-up">
           {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe) => (
               <div
