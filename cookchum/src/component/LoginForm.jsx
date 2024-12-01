@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -74,27 +76,26 @@ const LoginForm = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password:</label>
-                    <input
-                        type={showPassword ? 'text' : 'password'}
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <div className="show-password-container">
+                    <div className="password-container">
                         <input
-                            type="checkbox"
-                            id="show-password"
-                            checked={showPassword}
-                            onChange={() => setShowPassword(!showPassword)}
+                            type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
-                        <label htmlFor="show-password">Show Password</label>
+                        <span
+                            className={`password-toggle ${showPassword ? 'show' : ''}`}
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </span>
                     </div>
                 </div>
 
                 <div className="button-row">
                     <button type="submit" className="login-button">Login</button>
-                    <button type="button"  onClick={handleAdminRedirect} className="admin-button">Login as Admin</button>
+                    <button type="button" onClick={handleAdminRedirect} className="admin-button">Login as Admin</button>
                 </div>
                 <div className="button-row">
                     <button type="button" onClick={handleRegisterRedirect} className="regis-button">Register</button>

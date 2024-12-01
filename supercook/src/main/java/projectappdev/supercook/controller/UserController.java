@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import projectappdev.supercook.entity.UserEntity;
 import projectappdev.supercook.repository.UserRepository;
 import projectappdev.supercook.service.UserService;
@@ -41,6 +43,13 @@ public class UserController {
     public ResponseEntity<List<UserEntity>> getAllUsers() {
         return ResponseEntity.ok(userservice.getAllUsers());
     }
+    
+    @GetMapping("/getAllUsers/{id}")
+    public ResponseEntity<UserEntity> getUserById(@PathVariable int id) {
+        UserEntity user = userservice.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+    
 
     // UPDATE user
     @PutMapping("/{id}")
@@ -74,5 +83,13 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
+    }
+    @PutMapping("/users/{id}/image")
+    public ResponseEntity<UserEntity> updateUserImage(
+        @PathVariable int id,
+        @RequestParam("image") MultipartFile imageFile
+    ) {
+        UserEntity updatedUser = userservice.updateUserImage(id, imageFile);
+        return ResponseEntity.ok(updatedUser);
     }
 }

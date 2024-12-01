@@ -2,9 +2,12 @@ package projectappdev.supercook.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import projectappdev.supercook.entity.UserEntity;
 import projectappdev.supercook.repository.UserRepository;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +62,18 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find user with ID " + id));
         userrepository.delete(user);
         System.out.print("User Deleted");
+    }
+    
+    public UserEntity updateUserImage(int userId, MultipartFile imageFile) {
+        UserEntity user = userrepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
+
+        try {
+            user.setImage(imageFile.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload image", e);
+        }
+
+        return userrepository.save(user);
     }
 }

@@ -46,7 +46,6 @@ function ConditionalHeader() {
     const location = useLocation();
     const noHeaderPaths = ['/login', '/register', '/AdminLogin', '/AdminSignUp','/AboutUs','/ManageRecipe','/AddIngredients'];
 
-    // Check if the current path is in the noHeaderPaths array
     const showHeader = !noHeaderPaths.includes(location.pathname);
 
     return showHeader ? <Header /> : null;

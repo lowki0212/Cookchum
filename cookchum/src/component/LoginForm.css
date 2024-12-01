@@ -66,18 +66,6 @@ input[type="text"] {
     border-radius: 3px;
 }
 
-.show-password-container {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-    width: 100px;
-    
-}
-
-.show-password-container input[type="checkbox"] {
-    margin-right: 2px;
-}
-
 .button-row {
     display: flex;
     justify-content: space-between; /* Ensures equal spacing between buttons */
@@ -136,4 +124,20 @@ input[type="text"] {
 .admin-button:hover, 
 .back-button:hover {
     background-color: orange; /* Hover color */
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-toggle.show {
+    color: #28a745; /* Example color when toggled */
 }
