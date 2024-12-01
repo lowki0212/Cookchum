@@ -182,21 +182,21 @@ body {
   
 
   .recipe-card {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Keeps the content aligned from the top */
-    align-items: center; /* Center the content horizontally */
+    justify-content: flex-start;
+    align-items: center;
+    width: 200px; /* Fixed width */
+    height: 300px; /* Fixed height */
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin: 10px;
-    width: 200px; /* Fixed width */
-    height: 300px; /* Fixed height */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 40px;
-    text-align: center; /* Ensure text inside the card is centered */
+    box-sizing: border-box; /* Ensures padding/border is included in width/height */
+    overflow: hidden; /* Ensures nothing spills outside */
+    text-align: center;
 }
   .recipe-card:hover {
     transform: scale(1.05);
@@ -236,11 +236,18 @@ body {
   }
 
   .recipe-image {
-    object-fit: cover; /* Keeps the image aspect ratio while covering the area */
-    margin-bottom: 5px; /* Reduced margin-bottom to bring it closer to the container */
-    margin-left: -10%; /* Optional: Adjusts the position to make the image closer to the container's edges */
+    width: 100%; /* Fills the width of the card */
+    height: auto; /* Maintains aspect ratio */
+    max-height: 70%; /* Restricts the height to 70% of the card */
+    object-fit: cover; /* Ensures it doesn’t stretch */
+    border-radius: 8px; /* Matches card border radius */
+    margin-bottom: 5px; /* Adjusts spacing */
+    display: block; /* Prevents inline display issues */
 }
-  
+
+* {
+    box-sizing: border-box;
+}
 
 
  
