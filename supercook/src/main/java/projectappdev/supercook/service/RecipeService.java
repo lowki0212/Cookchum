@@ -41,6 +41,7 @@ public class RecipeService {
                     existingRecipe.setName(updatedRecipe.getName());
                     existingRecipe.setDescription(updatedRecipe.getDescription());
                     existingRecipe.setEstimatedCost(updatedRecipe.getEstimatedCost());
+                    existingRecipe.setCalories(updatedRecipe.getCalories());
                     existingRecipe.setImageUrl(updatedRecipe.getImageUrl());
                     return recipeRepository.save(existingRecipe);
                 })

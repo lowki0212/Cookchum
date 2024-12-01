@@ -1,7 +1,9 @@
 /* General container styling */
 .full-recipe-container {
-  max-width: 1000px;
-  margin: 30px auto;
+  width: 70%; /* Ensure it takes up full available width */
+  max-width: 1200px; /* Optional: maximum width constraint */
+  margin-left: 30px;
+  margin-right: 30px;
   padding: 20px;
   background: #ffffff;
   border-radius: 20px;
@@ -9,20 +11,78 @@
   font-family: 'Poppins', sans-serif;
   color: #333;
   transition: transform 0.3s ease;
-  margin-top: 100px;
-  
+  margin-top: 20px;
+  overflow: hidden;
+  float: left;
+  clear: both; /* Prevents floating element issues */
 }
 
+.reader-favorites {
+  margin-left: 30px; /* Increased left margin for better spacing */
+  padding: 20px;
+  width: 300px;
+  background: transparent; /* Add a light background */
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  transition: transform 0.3s ease;
+  margin-top: 1px;
+  overflow: hidden;
+  float: left;
+}
 
+.reader-favorites h3 {
+  font-size: 1.8rem; /* Adjusted font size */
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20px; /* Increased margin to separate from images */
+  text-align: center; /* Center the header text */
+}
+
+.favorite-item {
+  margin-bottom: 20px; /* Add spacing between image and name */
+  text-align: center;  /* Center align images and names */
+}
+
+.reader-favorites img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 10px; /* Add rounded corners to images */
+}
+
+.reader-favorites p {
+  font-size: 1.1rem; /* Slightly larger text for food name */
+  color: #333;
+  font-weight: 600;
+  margin-top: 10px; /* Add spacing between image and name */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .reader-favorites {
+    width: 100%; /* Full width on smaller screens */
+    margin-left: 0;
+    margin-top: 30px;
+  }
+  .reader-favorites h3 {
+    font-size: 1.5rem; /* Adjust font size on smaller screens */
+  }
+}
 
 .invisible {
   visibility: hidden;
 }
 
-
-
 .full-recipe-container:hover {
   transform: scale(1.02);
+}
+
+
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Header section */
@@ -35,7 +95,6 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .recipe-name {
   font-size: 3rem;
@@ -68,37 +127,39 @@
 .recipe-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   flex-wrap: wrap;
-  margin-top: 30px;
+  background: transparent;
 }
 
 .recipe-info {
   flex: 1;
   padding-right: 20px;
   max-width: 500px;
+  background: transparent;
 }
+
 .full-recipe-image {
-  width: 100%; /* Ensure it fills the parent container width */
-  height: 100%; /* Scale to fill the container height */
-  object-fit: cover; /* Scale and crop the image to fill the container */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
+
 .recipe-image {
   flex: 1;
   padding: 10px;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  width: 100%; /* Adjust width for responsiveness */
-  max-width: 400px; /* Maximum width */
-  height: 300px; /* Fixed height */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
   overflow: hidden;
-  margin: 0 auto; /* Center horizontally in non-flexbox parents */
+  margin: 0 auto;
+  
 }
-
 
 .full-recipe-image:hover {
   transform: scale(1.05);
@@ -172,13 +233,19 @@
 
 .back-button,
 .add-favorite-button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border: 2px solid transparent;
+  border-radius: 30px;
   font-size: 1.1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  font-weight: 600;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff6f61; /* Same as the comment button background */
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .back-button {
@@ -186,25 +253,104 @@
   color: #333;
 }
 
-.back-button:hover {
-  background-color: #b3b3b3;
-  transform: scale(1.05);
+.back-button:hover,
+.add-favorite-button:hover {
+  background-color: #28a745;  /* Darker shade when hovered */
+  transform: translateY(-3px);  /* Subtle lift effect */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);  /* Increased shadow */
+}
+
+.back-button:active,
+.add-favorite-button:active {
+  transform: translateY(2px);  /* Slight push down on click */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  /* Less shadow when clicked */
 }
 
 .add-favorite-button {
-  background-color: #ff6f61;
+  background-color: #28a745;
   color: #fff;
 }
 
 .add-favorite-button:hover {
-  background-color: #e55a50;
+  background-color: #28a745;
   transform: scale(1.05);
 }
 
+/* Review Section */
+.review-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #f1f1f1;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ccc;
+  padding: 15px 0;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.review-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-username {
+  font-weight: bold;
+  margin: 0;
+}
+
+.review-date {
+  font-size: 0.8em;
+  color: gray;
+}
+
+.review-content {
+  margin-top: 10px;
+}
+
+.review-rating .star {
+  color: gold;
+  font-size: 1.2em;
+}
+
+.review-text {
+  margin-top: 10px;
+}
+
+/* Star Rating Enhancement */
+.star {
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star.gold {
+  color: gold;
+}
+
+.star.gray {
+  color: gray;
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
   .recipe-content {
     flex-direction: column;
     align-items: center;
+    background: transparent;
   }
 
   .recipe-name {
@@ -213,7 +359,7 @@
   .recipe-info {
     padding-right: 0;
     padding-left: 20px;
-  } 
+  }
 
   .recipe-image {
     width: 100%;
@@ -221,62 +367,131 @@
   }
 }
 
-  .review-item {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #ccc;
-    padding: 15px 0;
-  }
-  
-  .review-header {
-    display: flex;
-    align-items: center;
-  }
-  
-  .review-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .review-info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .review-username {
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .review-date {
-    font-size: 0.8em;
-    color: gray;
-  }
-  
-  .review-content {
-    margin-top: 10px;
-  }
-  
-  .review-rating .star {
-    color: gold;
-    font-size: 1.2em;
-  }
-  
-  .review-text {
-    margin-top: 10px;
-  }
-  .star {
-    font-size: 24px;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  
-  .star.gold {
-    color: gold;
-  }
-  
-  .star.gray {
-    color: gray;
-  }
+/* Recipe instructions section */
+.instructions-section {
+  margin-top: 30px;
+}
+
+.instructions-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  margin-top: 5rem;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.instructions-list {
+  list-style: decimal;
+  margin: 10px 0;
+  padding-left: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #5a5a5a;
+}
+
+/* Nutritional Information section */
+.nutritional-section {
+  margin-top: 100px;
+  padding-top: 15px;
+  margin-bottom: 5rem;
+}
+
+.rev {
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.nutritional-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.nutritional-info {
+  font-size: 1.1rem;
+  color: #5a5a5a;
+  line-height: 1.8;
+}
+
+.nutritional-info span {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Time Information Section */
+.time-info-section {
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 2px solid #f1f1f1;
+}
+
+.time-info-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.time-info {
+  font-size: 1.1rem;
+  color: #5a5a5a;
+  line-height: 1.8;
+}
+
+.time-info span {
+  font-weight: 600;
+  color: #333;
+}
+
+.add-comment-button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #0084ff; /* Facebook blue */
+  color: #fff;
+  border-radius: 25px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  width: fit-content;
+}
+
+.add-comment-button:hover {
+  background-color: #006bb3; /* Darker shade of blue */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.add-comment-button:focus {
+  outline: none;
+}
+
+.add-comment-button .button-text {
+  margin-left: 8px; /* Add space between icon and text */
+}
+
+/* Optional: Add a comment icon */
+.add-comment-button .comment-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+/* Styling for the text area for the comment */
+textarea {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: border 0.3s;
+}
+
+textarea:focus {
+  border: 1px solid #0084ff; /* Highlight border on focus */
+}

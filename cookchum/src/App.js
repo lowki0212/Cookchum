@@ -14,6 +14,7 @@ import Header from './component/Header';
 import AboutUs from './component/AboutUs';  
 import ContactUs from './component/ContactUs';
 import FAQs from './component/FAQs';
+import UserProfileEdit from './component/UserProfileEdit';
 
 function App() {
     return (
@@ -35,8 +36,10 @@ function App() {
                     <Route path="/AboutUs" element={<AboutUs />} />
                     <Route path="/FAQs" element={<FAQs />} />
                     <Route path="/ContactUs" element={<ContactUs />} />
+                    <Route path="/UserProfile" element={<UserProfileEdit />} />
                                     </Routes>
                 </div>
+               
             </div>
         </Router>
     );

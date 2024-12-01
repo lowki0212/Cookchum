@@ -1,0 +1,39 @@
+/* Make sure the body and html take up the full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Wrapper for the entire content */
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the wrapper fills at least the full height of the viewport */
+}
+
+/* Main content styles */
+.dashboard-container {
+    flex-grow: 1; /* Allow this section to grow and take the remaining space */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #0b6434;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: auto; /* Push the footer to the bottom */
+}
+
+/* Optional: add responsive adjustments if necessary */
+@media (max-width: 768px) {
+    .footer {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}

@@ -14,6 +14,7 @@ const FullRecipe = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isInvalidState, setIsInvalidState] = useState(false);
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     if (!state || !state.recipe || !state.userId) {
@@ -93,6 +94,17 @@ const FullRecipe = () => {
         setRating(0);
         setIsAdding(true);
       }
+      // Calculate the average rating
+    if (filteredReviews.length > 0) {
+      const totalRating = filteredReviews.reduce(
+        (sum, review) => sum + review.rating,
+        0
+      );
+      const avgRating = totalRating / filteredReviews.length;
+      setAverageRating(avgRating);
+    } else {
+      setAverageRating(0);
+    }
     } catch (error) {
       console.error("Error fetching reviews:", error);
     }
@@ -103,7 +115,6 @@ const FullRecipe = () => {
   }, [isInvalidState]);
 
 
-  
   const handleAddOrUpdateReview = async () => {
     if (rating <= 0 || rating > 5) {
       alert("Please select a rating between 1 and 5.");
@@ -197,9 +208,7 @@ const FullRecipe = () => {
   <p>{recipe.reviews ? `${recipe.reviews.length} reviews` : "No reviews yet"}</p>
   </div>
   <p className="author">{recipe.author}</p>
-  <h4 className="estimated-cost">
-    Estimated Cost: ${recipe.estimatedCost?.toFixed(2) || "N/A"}
-  </h4>
+  <h4 className="estimated-cost">Estimated Cost: ${recipe.estimatedCost?.toFixed(2) || "N/A"}</h4>
 </div>
 
     <div className="full-recipe-container">
@@ -229,7 +238,51 @@ const FullRecipe = () => {
     )}
   </div>
 </div>
-      <h3>Reviews:</h3>
+
+<h3>Average Rating: {averageRating.toFixed(1)} / 5</h3> {/* New */}
+    <div className="review-stars">
+      {Array(5)
+        .fill(0)
+        .map((_, index) => (
+          <span
+            key={index}
+            className={`star ${
+              index < Math.round(averageRating) ? "gold" : "gray"
+            }`}
+          >
+            ★
+          </span>
+        ))}
+    </div>
+
+<div class="instructions-section">
+    <h2 class="instructions-header">How to Cook</h2>
+    <ol class="instructions-list">
+      <li>Preheat the oven to 180°C.</li>
+      <li>Mix all ingredients in a bowl.</li>
+      <li>Bake for 30 minutes or until golden brown.</li>
+      <li>Let it cool before serving.</li>
+    </ol>
+  </div>
+  <div class="time-info-section">
+    <h2 class="time-info-header">Time Information</h2>
+    <div class="time-info">
+      <p><span>Prep Time:</span> 15 minutes</p>
+      <p><span>Cook Time:</span> 30 minutes</p>
+      <p><span>Total Time:</span> 45 minutes</p>
+    </div>
+  </div>
+  <div class="nutritional-section">
+    <h2 class="nutritional-header">Nutritional Information</h2>
+    <div class="nutritional-info">
+    <p><span>Calories: </span>{recipe.calories || "N/A"}</p>
+      <p><span>Fat:</span> 10g</p>
+      <p><span>Carbohydrates:</span> 35g</p>
+      <p><span>Protein:</span> 5g</p>
+    </div>
+  </div>
+  <div className="rev">
+      <h3>Reviews:</h3></div>
       <div className="review-list">
         {userReview && !isAdding && (
           <div className="review-item user-review">
@@ -297,7 +350,10 @@ const FullRecipe = () => {
               rows="4"
             ></textarea>
             <div className="review-stars">{renderStars()}</div>
-            <button onClick={handleAddOrUpdateReview}>Add Comment</button>
+            <button onClick={handleAddOrUpdateReview} className="add-comment-button">
+      <span className="comment-icon">💬</span> {/* Optional: Comment icon */}
+      <span className="button-text">Add Comment</span>
+    </button>
           </div>
         )}
 
@@ -348,6 +404,43 @@ const FullRecipe = () => {
         </button>
         </div>
       </div>
+
+      <div className="reader-favorites">
+  <h3>Reader Favorites</h3>
+  <div className="favorite-item">
+    <img src="https://i.ibb.co/k9qZ0WX/1170f1494f08.jpg" alt="Favorite Recipe 1" />
+    <p>CRABBY PATTY</p> 
+  </div>
+  <div className="favorite-item">
+    <img src="https://i.ibb.co/T4PdF6Z/c0a4e0b1de0b.jpg" alt="Favorite Recipe 2" />
+    <p>SINIGANG NI WINTER</p> 
+  </div>
+  <div className="favorite-item">
+    <img src="https://i.ibb.co/WsY7McB/2bb71ebc4bcc.jpg" alt="Favorite Recipe 2" />
+    <p>KAWALI NI SUPERMAN</p> 
+  </div>
+  <div className="favorite-item">
+    <img src="https://i.ibb.co/KGnqrcD/0b0e95424715.jpg" alt="Favorite Recipe 2" />
+    <p>HOTDOG NI SPIDERMAN</p> 
+  </div>
+  <div className="favorite-item">
+    <img src="https://i.ibb.co/18FhjRB/859bc615f1c8.jpg" alt="Favorite Recipe 2" />
+    <p>BOILED EGG NI SANTA CLAUS</p> 
+  </div>
+  <div className="favorite-item">
+    <h4>Learn How to Cook!</h4>
+    <iframe
+      width="100%"
+      height="315"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Replace with the actual video URL
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>
+  </div>
+</div>
+
       </>
   );
 };

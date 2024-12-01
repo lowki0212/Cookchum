@@ -8,6 +8,7 @@ const ManageRecipe = () => {
     name: "",
     description: "",
     estimatedCost: "",
+    calorie: "", // Added calorie field
   });
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentRecipeId, setCurrentRecipeId] = useState(null);
@@ -45,13 +46,17 @@ const ManageRecipe = () => {
     formDataToSubmit.append("name", formData.name);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("estimatedCost", formData.estimatedCost);
+
+    const calorieValue = formData.calories ? parseInt(formData.calories) : null;
+    formDataToSubmit.append("calories", calorieValue); // Add calorie value (could be null if empty)
+    
     formDataToSubmit.append("file", image); // Add image file
     formDataToSubmit.append("admin", JSON.stringify({ adminId: 1 })); // Add admin data
   
     try {
       if (isEditMode && currentRecipeId) {
         // Update existing recipe
-        await axios.put(`http://localhost:8080/api/recipe/updateRecipe/${currentRecipeId}`, formDataToSubmit, {
+        await axios.put('http://localhost:8080/api/recipe/updateRecipe/${currentRecipeId}', formDataToSubmit, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -99,7 +104,7 @@ const ManageRecipe = () => {
 
   const handleUpdateRecipe = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/recipe/updateRecipe/${currentRecipeId}`, {
+      await axios.put('http://localhost:8080/api/recipe/updateRecipe/${currentRecipeId}', {
         name: formData.name,
         description: formData.description,
         estimatedCost: parseFloat(formData.estimatedCost),
@@ -135,6 +140,7 @@ const ManageRecipe = () => {
       name: recipe.name,
       description: recipe.description,
       estimatedCost: recipe.estimatedCost,
+      calories: recipe.calories,
     });
     setImage(null);
     setIsEditMode(true);
@@ -142,7 +148,7 @@ const ManageRecipe = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: "", description: "", estimatedCost: "" });
+    setFormData({ name: "", description: "", estimatedCost: "", calories: "" });
     setImage(null);
     setIsEditMode(false);
     setCurrentRecipeId(null);
@@ -155,7 +161,7 @@ const ManageRecipe = () => {
   };
 
 
-  const handleViewDetails = (recipeId) => navigate(`/recipeDetails/${recipeId}`);
+  const handleViewDetails = (recipeId) => navigate('/recipeDetails/${recipeId}');
 
   return (
     <div style={styles.container}>
@@ -210,6 +216,7 @@ const ManageRecipe = () => {
                 placeholder="Description and Instruction"
               ></textarea>
             </div>
+
             <div style={styles.inputGroup}>
               <label style={styles.label}>Estimated Cost</label>
               <input
@@ -221,6 +228,19 @@ const ManageRecipe = () => {
                 placeholder="Enter cost in USD"
               />
             </div>
+
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Calories</label>
+              <input
+                type="number"
+                name="calories"
+                value={formData.calories}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="Enter calories"
+              />
+            </div>
+
             <div style={styles.buttons}>
               <button style={styles.cancelButton} onClick={resetForm} type="button">
                 Cancel

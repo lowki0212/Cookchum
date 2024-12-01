@@ -119,7 +119,7 @@ const ContactUs = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image="https://via.placeholder.com/300"
+                  image="https://i.ibb.co/XSzGLY3/2ffc83da9054.png"
                   alt="Team Member"
                 />
                 <CardContent>
@@ -137,7 +137,7 @@ const ContactUs = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image="https://via.placeholder.com/300"
+                  image="https://i.ibb.co/XSzGLY3/2ffc83da9054.png"
                   alt="Team Member"
                 />
                 <CardContent>

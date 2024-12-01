@@ -102,7 +102,7 @@ body {
   .main-content h2 {
     margin-top:1%;
     font-style: 'Poppins';
-    font-size: 28px;
+    font-size: 40px;
     margin-bottom: 10px;
     color: #333;
   }
@@ -126,19 +126,25 @@ body {
     list-style-type: none;
     padding: 0;
     margin-top: 20px;
+
+}
+
+.recipe-info {
+  padding: 10px;
+  text-align: center;
+  background-color: #f9f9f9; /* Optional for contrast */
 }
 .recipe-info h4 {
-    font-size: 18px;
-    color: #444;
-  }
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
 
-  .recipe-info p {
-    font-size: 14px;
-    color: #666;
-    margin-top: 5px;
-  }
-  
-
+.recipe-info p {
+  font-size: 12px;
+  color: #666;
+}
 .recipe-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -158,6 +164,21 @@ body {
 .auth-button-top {
     margin-bottom: 20px;
 }
+
+/* Styling for clickable text */
+.clickable-text {
+
+ 
+  cursor: pointer;
+ 
+  transition: color 0.3s ease;
+}
+
+.clickable-text:hover {
+  color: #007bff; /* A link-like color */
+  text-decoration: none;
+}
+
 
 .auth-button-top button {
     background-color: #038d41be;
@@ -183,27 +204,61 @@ body {
   
 
   .recipe-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 200px; /* Fixed width */
-    height: 300px; /* Fixed height */
-    background: white;
-    border: 1px solid #ddd;
+    position: relative;
+    width: 250px;
+    height: 200px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin: 10px;
-    box-sizing: border-box; /* Ensures padding/border is included in width/height */
-    overflow: hidden; /* Ensures nothing spills outside */
-    text-align: center;
-}
-  .recipe-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: flex-end;
   }
 
+  .recipe-card-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Transparent black background */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .recipe-card-overlay .rating {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #f5a623; /* Color for the star rating */
+  }
+
+  .recipe-card-overlay p {
+    font-size: 12px;
+    margin: 5px 0 0 0;
+  }
+  .recipe-card-overlay h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .recipe-card-overlay .rating p {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .recipe-image-container {
+    width: 100%; /* Take full width */
+    height: auto; /* Height adapts based on content */
+    flex-shrink: 0; /* Prevent shrinking */
+  }
+  
+  .recipe-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  }
   .recipe-popup {
     position: fixed;
     top: 50%;
@@ -215,13 +270,45 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 100;
-    width: 400px; /* Fixed width for consistency */
-    height: 600px; /* Increased fixed height */
+    width: 400px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden; /* Prevents content from spilling out */
+    overflow: hidden;
+  }
+
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
 }
+.close-popup:hover {
+  color: red;
+}
+
+/* Style the close icon */
+.close-popup-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+}
+
+.close-popup-icon:hover {
+  color: #f00; /* Changes color when hovered */
+}
+
+
 
   .recipe-popup button {
     margin-top: 10px;
@@ -236,16 +323,13 @@ body {
     background-color: #218838;
   }
 
-  .recipe-image {
-    width: 100%; /* Fills the width of the card */
-    height: auto; /* Maintains aspect ratio */
-    max-height: 70%; /* Restricts the height to 70% of the card */
-    object-fit: cover; /* Ensures it doesn’t stretch */
-    border-radius: 8px; /* Matches card border radius */
-    margin-bottom: 5px; /* Adjusts spacing */
-    display: block; /* Prevents inline display issues */
-}
 
+
+  .recipe-image {
+    width: 100%; /* Full width of container */
+    height: 100%; /* Full height of container */
+    object-fit: cover; /* Ensures no stretching or distortion */
+  }
 * {
     box-sizing: border-box;
 }
@@ -253,12 +337,25 @@ body {
 
  
 .recipe-popup img {
-    width: 100%;  /* Ensure full width */
-    height: 70%;  /* Set height to fill the popup container */
-    object-fit: cover; /* Ensures the image covers the area without stretching */
-    border-radius: 8px;
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
+.recipe-popup button {
+  margin-top: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.recipe-popup button:hover {
+  background-color: #218838;
+}
 
 
 .rating-section {

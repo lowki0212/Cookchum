@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Card, CardContent, Button, Grid } from '@mui/material';
 import { FaLeaf, FaUtensils, FaHandHoldingHeart, FaQuoteLeft } from 'react-icons/fa';
 import Header from './Header';
+import cooksImage from './cooks.jpg';
 import './AboutUs.css';
 
 const AboutUs = () => {
@@ -27,11 +28,7 @@ const AboutUs = () => {
 
           {/* Image Section */}
           <Box className="about-image-container">
-            <img
-              src="https://i.ibb.co/dBY1Rns/4f96fe88d320.png"
-              alt="CookChum Team"
-              className="about-image"
-            />
+          <img src={cooksImage} alt="Cookchum Team" className="about-image" />
           </Box>
 
           <Box className="about-content">

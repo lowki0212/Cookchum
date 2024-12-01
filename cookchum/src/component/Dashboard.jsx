@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { MdClose } from "react-icons/md"; // Import the close icon
 import axios from "axios";
 import "./Dashboard.css";
 
@@ -90,6 +91,18 @@ const Dashboard = () => {
     }
   };
 
+  const handleClosePopup = () => {
+    setSelectedRecipe(null); // Closes the popup
+  };
+
+  const handleEditProfile = () => {
+    if (loggedIn) {
+      navigate("/UserProfile", { state: { userId, username } });
+    } else {
+      navigate("/login");
+    }
+  };
+
   const handleAuthButtonClick = () => {
     if (loggedIn) {
       setLoggedIn(false);
@@ -133,6 +146,7 @@ const Dashboard = () => {
             <p>Loading ingredients...</p>
           )}
         </div>
+              {/* Edit Profile Button */}
 
         <nav className="menu">
           <ul>
@@ -141,27 +155,34 @@ const Dashboard = () => {
             <li>Download the App</li>
           </ul>
         </nav>
+
+        <div className="edit-profile-link">
+  {loggedIn && (
+    <span onClick={handleEditProfile} className="clickable-text">
+      Edit Profile
+    </span>
+  )}
+</div>
+
       </div>
 
       {/* Main Content */}
       <div className="main-content animated-fade-in">
         <h2>Discover Delicious Recipes</h2>
-        <div className="recipe-grid animated-slide-up">
+      <div className="recipe-grid animated-slide-up">
           {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe) => (
               <div
                 key={recipe.recipeId}
                 className="recipe-card"
-                onClick={() => handleRecipeClick(recipe)}
+                onClick={() => setSelectedRecipe(recipe)}
+                style={{
+                  backgroundImage: `url(${recipe.imageUrl})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
               >
-                {recipe.imageUrl && (
-                  <img
-                    src={recipe.imageUrl}
-                    alt={recipe.name}
-                    className="recipe-image"
-                  />
-                )}
-                <div className="recipe-info">
+                <div className="recipe-card-overlay">
                   <h4>{recipe.name}</h4>
                   <p>{recipe.description.substring(0, 50)}...</p>
                 </div>
@@ -172,20 +193,23 @@ const Dashboard = () => {
           )}
         </div>
 
+        
+
         {selectedRecipe && (
-          <div className="recipe-popup">
-            <h4>{selectedRecipe.name}</h4>
-            {selectedRecipe.imageUrl && (
-              <img
-                src={selectedRecipe.imageUrl}
-                alt={selectedRecipe.name}
-                className="popup-image"
-              />
-            )}
-            <p>{selectedRecipe.description}</p>
-            <button onClick={handleViewFullRecipe}>View Full Recipe</button>
-          </div>
-        )}
+  <div className="recipe-popup">
+    <MdClose className="close-popup-icon" onClick={handleClosePopup} />
+    <h4>{selectedRecipe.name}</h4>
+    {selectedRecipe.imageUrl && (
+      <img
+        src={selectedRecipe.imageUrl}
+        alt={selectedRecipe.name}
+        className="popup-image"
+      />
+    )}
+    <p>{selectedRecipe.description}</p>
+    <button onClick={handleViewFullRecipe}>View Full Recipe</button>
+  </div>
+)}
       </div>
     </div>
   );

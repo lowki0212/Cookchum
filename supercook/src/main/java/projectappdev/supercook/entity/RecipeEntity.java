@@ -30,10 +30,13 @@ public class RecipeEntity {
     private String name;
     private String description;
     private float estimatedCost;
+    private Float calories;
+
 
     @Lob
     @Column(name = "image", columnDefinition = "LONGBLOB")
     private byte[] image; // Store the image as a byte array
+
     
     @OneToMany(mappedBy = "recipe", orphanRemoval = true)
     @JsonBackReference("recipe-favRecipe")
@@ -53,7 +56,7 @@ public class RecipeEntity {
         super();
     }
 
-    public RecipeEntity(int recipeId, String name, String description, byte[] image, float estimatedCost, List<IngredientEntity> ingredients) {
+    public RecipeEntity(int recipeId, String name, String description, byte[] image,float calories, float estimatedCost, List<IngredientEntity> ingredients) {
         super();
         this.recipeId = recipeId;
         this.name = name;
@@ -61,9 +64,18 @@ public class RecipeEntity {
         this.estimatedCost = estimatedCost;
         this.ingredients = ingredients;
         this.image = image;
+        this.calories = calories;
     }
 
     // Getters and setters
+    
+    public Float getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Float calories) {
+        this.calories = calories;
+    }
 
     public int getRecipeId() {
         return recipeId;

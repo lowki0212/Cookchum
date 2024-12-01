@@ -1,0 +1,73 @@
+/* Add some space at the top of the profile edit form */
+.user-profile-edit {
+    width: 100%;
+    max-width: 500px;
+    margin: 350px auto; /* Center the form horizontally */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.form-group input[type="file"] {
+  display: block;
+  margin-top: 5px;
+}
+
+button.save-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.save-button:hover {
+  background-color: #45a049;
+}
+
+/* Styling the profile picture to be round */
+/* Styling the profile picture to be centered */
+.profile-picture-container {
+    margin-bottom: 20px; /* Adds space below the profile picture */
+    display: flex; /* Flexbox layout to allow alignment */
+    justify-content: center; /* Center the profile picture horizontally */
+    align-items: center; /* Center the profile picture vertically */
+    padding: 20px; /* Optional: adds space around the container */
+  }
+  
+  
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image fits within the circle */
+  }

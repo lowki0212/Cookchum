@@ -48,6 +48,7 @@ public class RecipeController {
             @RequestParam("name") String name,
             @RequestParam("description") String description,
             @RequestParam("estimatedCost") float estimatedCost,
+            @RequestParam("calories") float calories,
             @RequestParam("file") MultipartFile file,
             @RequestParam("admin") String adminJson) {
 
@@ -68,6 +69,7 @@ public class RecipeController {
             recipe.setName(name);
             recipe.setDescription(description);
             recipe.setEstimatedCost(estimatedCost);
+            recipe.setCalories(calories);
             recipe.setImageUrl(imageData); // Set the binary image data
 
             // Associate the admin with the recipe
@@ -132,6 +134,7 @@ public class RecipeController {
             recipeData.put("name", recipe.getName());
             recipeData.put("description", recipe.getDescription());
             recipeData.put("estimatedCost", recipe.getEstimatedCost());
+            recipeData.put("calories", recipe.getCalories());
     
             // Convert image byte[] to Base64 string
             if (recipe.getImageUrl() != null) {
@@ -172,6 +175,7 @@ public class RecipeController {
             @RequestParam("name") String name,
             @RequestParam("description") String description,
             @RequestParam("estimatedCost") float estimatedCost,
+            @RequestParam("calories") float calories,
             @RequestParam(value = "file", required = false) MultipartFile file) {
 
         try {
@@ -183,6 +187,7 @@ public class RecipeController {
             existingRecipe.setName(name);
             existingRecipe.setDescription(description);
             existingRecipe.setEstimatedCost(estimatedCost);
+            existingRecipe.setCalories(calories);
 
             // Update the image if provided
             if (file != null && !file.isEmpty()) {
